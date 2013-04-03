@@ -1,17 +1,23 @@
 package supermarktmanager;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-
-@Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public abstract class Persoon {
-    @Id @GeneratedValue
-    private Long id;
-    
-    private String name;
+    private String Naam;
+    private String Adres;
+
+    public String getNaam() {
+        return Naam;
+    }
+
+    public void setNaam(String Naam) {
+        this.Naam = Naam;
+    }
+
+    public String getAdres() {
+        return Adres;
+    }
+
+    public void setAdres(String Adres) {
+        this.Adres = Adres;
+    }
 
 }
