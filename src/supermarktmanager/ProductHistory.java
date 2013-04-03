@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 
+//djfewiofwehofiwehfowe
+
 @Entity
 public class ProductHistory implements Serializable {
     
