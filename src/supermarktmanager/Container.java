@@ -1,5 +1,5 @@
 package supermarktmanager;
 
-public class Rek {
+public class Container {
     int locatieId;
 }
