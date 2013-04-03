@@ -30,14 +30,6 @@ public class ProductGeschiedenis implements Serializable {
         this.id = id;
     }
 
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
     public int getAantal() {
         return aantal;
     }
