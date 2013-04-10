@@ -1,13 +1,16 @@
 package supermarktmanager;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 
+//djfewiofwehofiwehfowe
+
 @Entity
-public class ProductHistory {
+public class ProductHistory implements Serializable {
     
     @Id
     @GeneratedValue
