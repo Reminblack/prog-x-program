@@ -1,5 +1,6 @@
 package supermarktmanager;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ public class Container {
     private Long id;
     @ManyToOne
     private Locatie locatie;
+    @Column(nullable = false)
     private String type;    
 
     public Long getId() {

@@ -4,19 +4,13 @@
  */
 package supermarktmanager;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 
 /**
  *
- * @author niet-Ben
+ * @author Remco
  */
 @Entity
-public class VakkenVuller extends Persoon {
-
+public class Kassiere extends Persoon {
     
-    public VakkenVuller() {
-        
-    }
 }

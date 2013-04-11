@@ -25,6 +25,9 @@
         
         <mapping class="supermarktmanager.Product" />
         <mapping class="supermarktmanager.VakkenVuller" />
+        <mapping class="supermarktmanager.Bakker" />
+        <mapping class="supermarktmanager.Kassiere" />
+        <mapping class="supermarktmanager.Slager" />
         <mapping class="supermarktmanager.Locatie" />
         <mapping class="supermarktmanager.Container" />
         <mapping class="supermarktmanager.ProductHistory" />
