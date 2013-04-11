@@ -24,5 +24,9 @@
         
         
         <mapping class="supermarktmanager.Product" />
+        <mapping class="supermarktmanager.Container" />
+        <mapping class="supermarktmanager.VakkenVuller" />
+        <mapping class="supermarktmanager.Locatie" />
+        <mapping class="supermarktmanager.ProductHistory" />
     </session-factory>
 </hibernate-configuration>

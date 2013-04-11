@@ -20,9 +20,13 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">false</property>
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
         
         
         <mapping class="supermarktmanager.Product" />
+        <mapping class="supermarktmanager.Container" />
+        <mapping class="supermarktmanager.VakkenVuller" />
+        <mapping class="supermarktmanager.Locatie" />
+        <mapping class="supermarktmanager.ProductHistory" />
     </session-factory>
 </hibernate-configuration>

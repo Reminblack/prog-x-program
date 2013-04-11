@@ -4,14 +4,16 @@
  */
 package supermarktmanager;
 
+import javax.persistence.Entity;
+
 /**
  *
  * @author Ben
  */
+@Entity
 public class VakkenVuller extends Persoon {
 
     public VakkenVuller() {
-        String naam = getNaam();
-        String adres = getAdres(); 
+        
     }
 }
