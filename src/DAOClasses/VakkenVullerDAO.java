@@ -5,10 +5,7 @@
 package DAOClasses;
 
 import java.util.List;
-import org.hibernate.Session;
-import supermarktmanager.Persoon;
 import supermarktmanager.VakkenVuller;
-import supermarktmanager.newHibernateUtil;
 
 /**
  *
@@ -34,5 +31,9 @@ public class VakkenVullerDAO extends PersoonDAO{
     
     public List<VakkenVuller> getAllVakkenVullers(){
         return super.getAllPersonen("VakkenVuller");
+    }
+    
+    public void deleteProduct(VakkenVuller deletedVakkenVuller){
+        super.deletePersoon(deletedVakkenVuller);
     }
 }

@@ -6,7 +6,6 @@ package DAOClasses;
 
 import java.util.List;
 import supermarktmanager.Bakker;
-import supermarktmanager.VakkenVuller;
 
 /**
  *
@@ -26,11 +25,15 @@ public class BakkerDAO extends PersoonDAO{
         super.updatePersoon(updatedBakker);
     }
     
-    public VakkenVuller getBakker(Long Bakker_id){
+    public Bakker getBakker(Long Bakker_id){
         return (Bakker) super.getPersoon(Bakker_id);
     }
     
     public List<Bakker> getAllBakkers(){
         return super.getAllPersonen("Bakker");
+    }
+    
+    public void deleteBakker(Bakker deletedBakker){
+        super.getAllPersonen("Bakker");
     }
 }

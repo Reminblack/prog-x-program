@@ -35,4 +35,8 @@ public class PersoonDAO {
     protected List getAllPersonen(String employeeType){
         return HibSession.createQuery("from "+employeeType).list();
     }
+    
+    protected void deletePersoon(Persoon deletedPersoon){
+        HibSession.delete(deletedPersoon);
+    }
 }

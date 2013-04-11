@@ -36,4 +36,8 @@ public class ProductDAO {
     public List<Product> getAllProducts(){
         return HibSession.createQuery("from Product").list();
     }
+    
+    public void deleteProduct(Product deletedProduct){
+        HibSession.delete(deletedProduct);
+    }
 }

@@ -6,7 +6,6 @@ package DAOClasses;
 
 import java.util.List;
 import supermarktmanager.Kassiere;
-import supermarktmanager.VakkenVuller;
 
 /**
  *
@@ -18,19 +17,23 @@ public class KassiereDAO extends PersoonDAO{
         
     }
     
-    public void createNewBakker(Kassiere newKassiere){
+    public void createNewKassiere(Kassiere newKassiere){
         super.createNewPersoon(newKassiere);
     }
     
-    public void updateBakker(Kassiere updatedKassiere){
+    public void updateKassiere(Kassiere updatedKassiere){
         super.updatePersoon(updatedKassiere);
     }
     
-    public VakkenVuller getKassiere(Long Kassiere_id){
-        return (Kassiere) super.getPersoon(Kassiere_id);
+    public Kassiere getKassiere(Long kassiere_id){
+        return (Kassiere) super.getPersoon(kassiere_id);
     }
     
     public List<Kassiere> getAllKassieres(){
         return super.getAllPersonen("Kassiere");
+    }
+    
+    public void deleteKassiere(Kassiere deletedKassiere){
+        super.deletePersoon(deletedKassiere);
     }
 }

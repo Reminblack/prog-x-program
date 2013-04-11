@@ -6,7 +6,6 @@ package DAOClasses;
 
 import java.util.List;
 import supermarktmanager.Slager;
-import supermarktmanager.VakkenVuller;
 
 /**
  *
@@ -26,11 +25,15 @@ public class SlagerDAO extends PersoonDAO{
         super.updatePersoon(updatedSlager);
     }
     
-    public VakkenVuller getKassiere(Long Slager_id){
-        return (Slager) super.getPersoon(Slager_id);
+    public Slager getKassiere(Long slager_id){
+        return (Slager) super.getPersoon(slager_id);
     }
     
     public List<Slager> getAllSlagers(){
         return super.getAllPersonen("Slager");
+    }
+    
+    public void deleteSlager(Slager deletedSlager){
+        super.deletePersoon(deletedSlager);
     }
 }

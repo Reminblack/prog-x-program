@@ -41,4 +41,8 @@ public class ProductHistoryDAO {
     public List<ProductHistory> getAllProductHistories(){
         return HibSession.createQuery("from ProductHistory").list();
     }
+    
+    public void deleteProductHistory(ProductHistory deletedProductHistory){
+        HibSession.delete(deletedProductHistory);
+    }
 }
