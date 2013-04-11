@@ -1,23 +1,37 @@
 package supermarktmanager;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+@Entity
 public abstract class Persoon {
-    private String Naam;
-    private String Adres;
+    @Id
+    @GeneratedValue
+    private Long id;
+    
+    
+    private String Name;
+    
+    @ManyToMany
+    private List<Locatie> werkplekken = new ArrayList<Locatie>();
 
-    public String getNaam() {
-        return Naam;
+    public Long getId() {
+        return id;
     }
 
-    public void setNaam(String Naam) {
-        this.Naam = Naam;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getAdres() {
-        return Adres;
+    public String getMemberName() {
+        return Name;
     }
 
-    public void setAdres(String Adres) {
-        this.Adres = Adres;
+    public void setMemberName(String memberName) {
+        this.Name = memberName;
     }
-
 }
