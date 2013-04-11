@@ -4,6 +4,7 @@
  */
 package DAOClasses;
 
+import java.util.List;
 import org.hibernate.Session;
 import supermarktmanager.*;
 
@@ -19,15 +20,19 @@ public class PersoonDAO {
         HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void createNewPersoon(Persoon newEmployee){
+    protected void createNewPersoon(Persoon newEmployee){
         HibSession.save(newEmployee);
     }
     
-    public void updatePersoon(Persoon newEmployee){
-        HibSession.update(newEmployee);
+    protected void updatePersoon(Persoon updatedEmployee){
+        HibSession.update(updatedEmployee);
     }
     
-    public Persoon getPersoon(){
-        return (Persoon)HibSession.get(Persoon.class, HibSession);
+    protected Object getPersoon(Long employee_id){
+        return HibSession.get(Persoon.class, employee_id);
+    }
+    
+    protected List getAllPersonen(String employeeType){
+        return HibSession.createQuery("from "+employeeType).list();
     }
 }
