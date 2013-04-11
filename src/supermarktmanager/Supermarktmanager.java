@@ -10,7 +10,7 @@ public class Supermarktmanager {
         System.out.println(sessionFactory); 
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(new Product("tfsdafsdafs"));
+        //session.save(new Product("tfsdafsdafs"));
         
         session.getTransaction().commit();
     }

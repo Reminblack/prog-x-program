@@ -4,14 +4,34 @@
  */
 package supermarktmanager;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+
 /**
  *
- * @author Ben
+ * @author niet-Ben
  */
+@Entity
 public class VakkenVuller extends Persoon {
 
+    @ManyToMany
+    private List<Locatie> werkplekken = new ArrayList<Locatie>();
+    
     public VakkenVuller() {
-        String naam = getNaam();
-        String adres = getAdres(); 
+        
+    }
+    
+    public void addLocation(Locatie newLocation){
+        werkplekken.add(newLocation);
+    }
+    
+    public void removeLocation(Locatie removeLocation){
+        werkplekken.remove(removeLocation);
+    }
+    
+    public List<Locatie> getLocations(){
+        return werkplekken;
     }
 }
