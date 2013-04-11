@@ -16,8 +16,6 @@ import javax.persistence.ManyToMany;
 @Entity
 public class VakkenVuller extends Persoon {
 
-    @ManyToMany
-    private List<Locatie> werkplekken = new ArrayList<Locatie>();
     
     public VakkenVuller() {
         

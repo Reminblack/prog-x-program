@@ -28,5 +28,6 @@
         <mapping class="supermarktmanager.Locatie" />
         <mapping class="supermarktmanager.Container" />
         <mapping class="supermarktmanager.ProductHistory" />
+
     </session-factory>
 </hibernate-configuration>
