@@ -14,7 +14,7 @@ import supermarktmanager.VakkenVuller;
 public class VakkenVullerDAO extends PersoonDAO{
     
     public VakkenVullerDAO(){
-        
+         
     }
     
     public void createNewVakkenVuller(VakkenVuller newVakkenVuller){
