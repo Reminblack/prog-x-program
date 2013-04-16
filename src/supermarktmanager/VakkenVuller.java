@@ -4,7 +4,10 @@
  */
 package supermarktmanager;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -13,8 +16,20 @@ import javax.persistence.Entity;
 @Entity
 public class VakkenVuller extends Persoon {
 
+    
     public VakkenVuller() {
         
     }
     
+    public void addLocation(Locatie newLocation){
+        werkplekken.add(newLocation);
+    }
+    
+    public void removeLocation(Locatie removeLocation){
+        werkplekken.remove(removeLocation);
+    }
+    
+    public List<Locatie> getLocations(){
+        return werkplekken;
+    }
 }

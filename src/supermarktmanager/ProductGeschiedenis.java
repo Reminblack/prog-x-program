@@ -8,21 +8,17 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
-//djfewiofwehofiwehfowe
-
 @Entity
-public class ProductHistory implements Serializable {
-    
+public class ProductGeschiedenis implements Serializable {
+
     @Id
     @GeneratedValue
     private Long id;
-    
     @ManyToOne
-    private Product productId;
-    
+    private Persoon productId;
     private int aantal = 0;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateBegin = new Date();
+    private Date dateBegin;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEind;
 
@@ -57,6 +53,4 @@ public class ProductHistory implements Serializable {
     public void setDateEind(Date dateEind) {
         this.dateEind = dateEind;
     }
-    
-    
 }

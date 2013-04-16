@@ -10,11 +10,8 @@ public class Supermarktmanager {
         System.out.println(sessionFactory); 
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        DAOClasses.PersoonDAO pdao = new DAOClasses.PersoonDAO();
-        DAOClasses.VakkenVullerDAO vvdao = new DAOClasses.VakkenVullerDAO();
-        for(Persoon employee : vvdao.getAllVakkenVullers()){
-            System.out.println(employee);
-        }
+        //session.save(new Product("tfsdafsdafs"));
+        
         session.getTransaction().commit();
     }
 }
