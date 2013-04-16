@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Column;
 
 @Entity
 public abstract class Persoon {
@@ -14,7 +13,7 @@ public abstract class Persoon {
     @GeneratedValue
     private Long id;
     
-    @Column(nullable = false)
+    
     private String Name;
     
     @ManyToMany
@@ -34,17 +33,5 @@ public abstract class Persoon {
 
     public void setMemberName(String memberName) {
         this.Name = memberName;
-    }
-    
-    public void addLocation(Locatie newLocation){
-        werkplekken.add(newLocation);
-    }
-    
-    public void removeLocation(Locatie removeLocation){
-        werkplekken.remove(removeLocation);
-    }
-    
-    public List<Locatie> getLocations(){
-        return werkplekken;
     }
 }

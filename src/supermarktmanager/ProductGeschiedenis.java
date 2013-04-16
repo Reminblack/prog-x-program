@@ -2,7 +2,6 @@ package supermarktmanager;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Entity;
@@ -10,16 +9,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 @Entity
-public class ProductGeschiedenis{
+public class ProductGeschiedenis implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
     @ManyToOne
-    private Product productId;
-    @Column(nullable = false)
+    private Persoon productId;
     private int aantal = 0;
-    @Column(nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateBegin;
     @Temporal(javax.persistence.TemporalType.DATE)

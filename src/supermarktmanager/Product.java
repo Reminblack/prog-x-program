@@ -1,26 +1,19 @@
 package supermarktmanager;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Product {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false)
     private String naam;
-    @Column(nullable = false)
     private String merk;
-    @Column(nullable = false)
     private float prijs;
-    @Column(nullable = false)
     private int aantal;
-    @ManyToOne
-    private Container container;
+    private Long rek;
 
     public Long getId() {
         return id;
@@ -60,5 +53,13 @@ public class Product {
 
     public void setAantal(int aantal) {
         this.aantal = aantal;
+    }
+
+    public Long getRek() {
+        return rek;
+    }
+
+    public void setRek(Long rek) {
+        this.rek = rek;
     }
 }
