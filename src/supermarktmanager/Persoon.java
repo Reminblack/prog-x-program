@@ -17,7 +17,7 @@ public abstract class Persoon {
     private String Name;
     
     @ManyToMany
-    private List<Locatie> werkplekken = new ArrayList<Locatie>();
+    protected List<Locatie> werkplekken = new ArrayList<Locatie>();
 
     public Long getId() {
         return id;
