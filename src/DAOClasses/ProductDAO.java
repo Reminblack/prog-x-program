@@ -13,31 +13,36 @@ import supermarktmanager.newHibernateUtil;
  *
  * @author Bart
  */
-public class ProductDAO {
+public class ProductDao implements Dao<Product>{
     
     private Session HibSession;
     
-    public ProductDAO(){
+    public ProductDao(){
         HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void createNewProduct(Product newProduct){
+    @Override
+    public void create(Product newProduct){
         HibSession.save(newProduct);
     }
     
-    public void updatePersoon(Product updatedProduct){
+    @Override
+    public void update(Product updatedProduct){
         HibSession.update(updatedProduct);
     }
     
-    public Product getProduct(Long product_id){
+    @Override
+    public Product retrieve(Long product_id){
         return (Product)HibSession.get(Product.class, product_id);
     }
     
-    public List<Product> getAllProducts(){
+    @Override
+    public List<Product> retrieveAll(){
         return HibSession.createQuery("from Product").list();
     }
     
-    public void deleteProduct(Product deletedProduct){
+    @Override
+    public void remove(Product deletedProduct){
         HibSession.delete(deletedProduct);
     }
 }
