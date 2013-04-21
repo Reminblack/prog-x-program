@@ -5,6 +5,8 @@
 package ServiceContainer;
 
 import DAOClasses.KassiereDao;
+import java.util.List;
+import supermarktmanager.Kassiere;
 
 /**
  *
@@ -13,7 +15,29 @@ import DAOClasses.KassiereDao;
 public class KassiereService {
     private KassiereDao kassiereDao;
     
-    public void setBakkerDAO(KassiereDao kassiereDao){
+    public void setKassiereDAO(KassiereDao kassiereDao){
         this.kassiereDao = kassiereDao;
+    }
+    
+    public void addNewKassiere(Kassiere newKassiere){
+        kassiereDao.create(newKassiere);
+    }
+    
+    public void updateKassiere(Kassiere updatedKassiere){
+        kassiereDao.update(updatedKassiere);
+    }
+    
+    public Kassiere getKassiereById(Long kassiere_id)
+    {
+        return kassiereDao.retrieve(kassiere_id);
+    }
+    
+    public List<Kassiere> getAllKassieres()
+    {
+        return kassiereDao.retrieveAll();
+    }
+    
+    public void deleteAKassiere(Kassiere kassiere){
+        kassiereDao.remove(kassiere);
     }
 }
