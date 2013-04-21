@@ -5,6 +5,8 @@
 package ServiceContainer;
 
 import DAOClasses.BakkerDao;
+import java.util.List;
+import supermarktmanager.Bakker;
 
 /**
  *
@@ -15,5 +17,27 @@ public class BakkerService {
     
     public void setBakkerDAO(BakkerDao bakkerDao){
         this.bakkerDao = bakkerDao;
+    }
+    
+    public void addNewBakker(Bakker newBakker){
+        bakkerDao.create(newBakker);
+    }
+    
+    public void updateBakker(Bakker updatedBakker){
+        bakkerDao.update(updatedBakker);
+    }
+    
+    public Bakker getBakkerById(Long bakker_id)
+    {
+        return bakkerDao.retrieve(bakker_id);
+    }
+    
+    public List<Bakker> getAllBakkers()
+    {
+        return bakkerDao.retrieveAll();
+    }
+    
+    public void deleteABakker(Bakker bakker){
+        bakkerDao.remove(bakker);
     }
 }
