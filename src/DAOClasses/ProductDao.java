@@ -5,7 +5,6 @@
 package DAOClasses;
 
 import java.util.List;
-import org.hibernate.Session;
 import supermarktmanager.Product;
 import supermarktmanager.newHibernateUtil;
 
@@ -14,35 +13,33 @@ import supermarktmanager.newHibernateUtil;
  * @author Bart
  */
 public class ProductDao implements Dao<Product>{
-    
-    private Session HibSession;
+
     
     public ProductDao(){
-        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
     @Override
     public void create(Product newProduct){
-        HibSession.save(newProduct);
+        newHibernateUtil.getSessionFactory().getCurrentSession().save(newProduct);
     }
     
     @Override
     public void update(Product updatedProduct){
-        HibSession.update(updatedProduct);
+        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedProduct);
     }
     
     @Override
     public Product retrieve(Long product_id){
-        return (Product)HibSession.get(Product.class, product_id);
+        return (Product)newHibernateUtil.getSessionFactory().getCurrentSession().get(Product.class, product_id);
     }
     
     @Override
     public List<Product> retrieveAll(){
-        return HibSession.createQuery("from Product").list();
+        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from Product").list();
     }
     
     @Override
     public void remove(Product deletedProduct){
-        HibSession.delete(deletedProduct);
+        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletedProduct);
     }
 }

@@ -5,7 +5,6 @@
 package DAOClasses;
 
 import java.util.List;
-import org.hibernate.Session;
 import supermarktmanager.Product;
 import supermarktmanager.ProductHistory;
 import supermarktmanager.newHibernateUtil;
@@ -16,38 +15,35 @@ import supermarktmanager.newHibernateUtil;
  */
 public class ProductHistoryDao implements Dao<ProductHistory>{
     
-    private Session HibSession;
-    
     public ProductHistoryDao(){
-        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
     @Override
     public void create(ProductHistory newProductHistory){
-        HibSession.save(newProductHistory);
+        newHibernateUtil.getSessionFactory().getCurrentSession().save(newProductHistory);
     }
     
     @Override
     public void update(ProductHistory updatedProductHistory){
-        HibSession.update(updatedProductHistory);
+        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedProductHistory);
     }
     
     @Override
     public ProductHistory retrieve(Long productHistory_id){
-        return (ProductHistory)HibSession.get(ProductHistory.class, productHistory_id);
+        return (ProductHistory)newHibernateUtil.getSessionFactory().getCurrentSession().get(ProductHistory.class, productHistory_id);
     }
         
     @Override
     public List<ProductHistory> retrieveAll(){
-        return HibSession.createQuery("from ProductHistory").list();
+        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from ProductHistory").list();
     }
     
     @Override
     public void remove(ProductHistory deletedProductHistory){
-        HibSession.delete(deletedProductHistory);
+        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletedProductHistory);
     }
     
     public List<ProductHistory> retrieveHistoryAssociatedWithAProduct(Product relatedProduct){
-        return HibSession.createQuery("from ProductHistory where productId="+relatedProduct).list();
+        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from ProductHistory where productId="+relatedProduct).list();
     }
 }

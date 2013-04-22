@@ -19,6 +19,14 @@ public abstract class Persoon {
     @ManyToMany
     protected List<Locatie> werkplekken = new ArrayList<Locatie>();
 
+    public List<Locatie> getWerkplekken() {
+        return werkplekken;
+    }
+
+    public void setWerkplekken(List<Locatie> werkplekken) {
+        this.werkplekken = werkplekken;
+    }
+
     public Long getId() {
         return id;
     }

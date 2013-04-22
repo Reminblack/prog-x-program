@@ -3,53 +3,120 @@
  * and open the template in the editor.
  */
 package ServiceLayer;
-import DAOClasses.DAOContainer;
+
+import DAOClasses.ContainerDao;
+import DAOClasses.LocatieDao;
+import DAOClasses.ProductDao;
+import org.hibernate.Session;
 import supermarktmanager.*;
-import java.util.List;
+
 /**
  *
  * @author Remco
  */
 public class ContainerService {
-    public void createContainer(Container c){
-        DAOContainer.session.beginTransaction();
-        DAOContainer.session.save(c);
-        DAOContainer.session.getTransaction().commit();
-    }
+
+    private ContainerDao containerDao;
+    private ProductDao productDao;
+    private LocatieDao locatieDao;
+    private Session hibSession;
     
-    public void deleteContainer(Container c){
-        DAOContainer.session.beginTransaction();
-        DAOContainer.session.delete(c);
-        DAOContainer.session.getTransaction().commit();
-    }
-    
-    public void assignToLocation(Container c, Locatie l)
+    public void setContainerService(ContainerDao c, ProductDao pd, LocatieDao ld)
     {
-        DAOContainer.session.beginTransaction();
-        Locatie lTemp = c.getLocatie();
-        c.getLocatie().removeContainer(c);
-        c.setLocatie(l);
-        l.addContainer(c);
-        
-        DAOContainer.session.save(l);
-        DAOContainer.session.save(c);
-        DAOContainer.session.save(lTemp);
-        DAOContainer.session.getTransaction().commit();
+        containerDao = c;
+        productDao = pd;
+        locatieDao = ld;
     }
-    
-    public void addProduct(Container c, Product p){
-        DAOContainer.session.beginTransaction();
-        
-        c.addProduct(p);
-        
-        DAOContainer.session.getTransaction().commit();
+
+    public void createContainer(Container c) {
+        try {
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            containerDao.create(c);
+            
+            hibSession.flush();
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+        } finally {
+            hibSession.close();
+        }
     }
-    
-    public void removeProduct(Container c, Product p){
-        DAOContainer.session.beginTransaction();
-        
-        c.removeProduct(p);
-        
-        DAOContainer.session.getTransaction().commit();
+
+    public void deleteContainer(Container c) {
+        try {
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            containerDao.remove(c);
+            
+            hibSession.flush();
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+        } finally {
+            hibSession.close();
+        }
+    }
+
+    public void assignToLocation(Container c, Locatie l) {
+        try {
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            Locatie lTemp = c.getLocatie();
+            c.getLocatie().removeContainer(c);
+            c.setLocatie(l);
+            l.addContainer(c);
+            locatieDao.update(lTemp);
+            locatieDao.update(l);
+            containerDao.update(c);
+            
+            hibSession.flush();
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+        } finally {
+            hibSession.close();
+        }
+    }
+
+    public void addProduct(Container c, Product p) {
+        try {
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            p.getRek().removeProduct(p);
+            containerDao.update(p.getRek());
+            c.addProduct(p);
+            p.setRek(c);
+            productDao.update(p);
+            containerDao.update(c);
+            
+            hibSession.flush();
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+        } finally {
+            hibSession.close();
+        }
+    }
+
+    public void removeProduct(Container c, Product p) {
+        try {
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            c.removeProduct(p);
+            p.setRek(null);
+            containerDao.update(c);
+            productDao.update(p);
+            hibSession.flush();
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+        } finally {
+            hibSession.close();
+        }
     }
 }
