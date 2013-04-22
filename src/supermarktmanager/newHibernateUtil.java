@@ -13,6 +13,7 @@ public class newHibernateUtil {
 // Needed for clients to get the sessionFactory object
     public static SessionFactory getSessionFactory() {
 // Initialize sessionFactory on first call
+        //int i = 0;
         if (sessionFactory == null) {
 //            Configuration configuration = new Configuration().configure();
 //            ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();

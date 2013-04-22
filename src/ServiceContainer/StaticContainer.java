@@ -15,12 +15,19 @@ import supermarktmanager.newHibernateUtil;
 public class StaticContainer {
     
    private static StaticContainer instance = null;
-   private HashMap<String, Object> services;
+   private static HashMap<String, Object> services = new HashMap<>();
    private Session hibernateSession;
-   private Dao BakkerService, ContainerService, KassiereService, LocatieService, ProductService, ProductHistoryService;
    
    protected StaticContainer(){
        hibernateSession = newHibernateUtil.getSessionFactory().getCurrentSession();
+       
+       VakkenVullerService vvs = new VakkenVullerService();
+       vvs.setVakkenVullerDao(new VakkenVullerDao());
+       services.put("VakkenVullerService", vvs);
+       
+       LocatieService ls = new LocatieService();
+       ls.setLocatieDao(new LocatieDao());
+       services.put("LocatieService", ls);
    }
    
    public static StaticContainer getInstance() {
@@ -30,8 +37,16 @@ public class StaticContainer {
       return instance;
    }
    
-   public Object getService(String service_id){
+   public static Object getService(String service_id){
        return services.get(service_id);
+   }
+   
+   public static Session getSession(){
+       if(!instance.hibernateSession.isOpen()){
+           instance.hibernateSession = newHibernateUtil.getSessionFactory().getCurrentSession();
+       }
+       return instance.hibernateSession;
+       
    }
    
 }

@@ -21,6 +21,9 @@
         <property name="show_sql">false</property>
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
+        <!-- Disable auto commit -->
+        <property name="hibernate.connection.autocommit">false</property> 
+        <property name="hibernate.transaction.auto_close_session">false</property>
         
         
         <mapping class="supermarktmanager.Product" />

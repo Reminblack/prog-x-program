@@ -15,34 +15,31 @@ import supermarktmanager.newHibernateUtil;
  */
 public class VakkenVullerDao implements Dao<VakkenVuller>{
     
-    private Session HibSession;
-    
     public VakkenVullerDao(){
-        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
     @Override
     public void create(VakkenVuller newVakkenVuller){
-        HibSession.save(newVakkenVuller);
+        newHibernateUtil.getSessionFactory().getCurrentSession().save(newVakkenVuller);
     }
     
     @Override
     public void update(VakkenVuller updatedVakkenVuller){
-        HibSession.update(updatedVakkenVuller);
+        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedVakkenVuller);
     }
     
     @Override
     public VakkenVuller retrieve(Long vakkenVuller_id){
-        return (VakkenVuller) HibSession.get(VakkenVuller.class, vakkenVuller_id);
+        return (VakkenVuller) newHibernateUtil.getSessionFactory().getCurrentSession().get(VakkenVuller.class, vakkenVuller_id);
     }
     
     @Override
     public List<VakkenVuller> retrieveAll(){
-        return HibSession.createQuery("from VakkenVuller").list();
+        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from VakkenVuller").list();
     }
     
     @Override
     public void remove(VakkenVuller deletedVakkenVuller){
-        HibSession.delete(deletedVakkenVuller);
+        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletedVakkenVuller);
     }
 }

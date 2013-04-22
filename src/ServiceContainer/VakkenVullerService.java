@@ -6,6 +6,8 @@ package ServiceContainer;
 
 import DAOClasses.VakkenVullerDao;
 import java.util.List;
+import org.hibernate.Session;
+import supermarktmanager.Locatie;
 import supermarktmanager.VakkenVuller;
 
 /**
@@ -14,6 +16,7 @@ import supermarktmanager.VakkenVuller;
  */
 public class VakkenVullerService {
     private VakkenVullerDao vakkenvullerDao;
+    private Session hibSession;
     
     public void setVakkenVullerDao(VakkenVullerDao vakkenvullerDao){
         this.vakkenvullerDao = vakkenvullerDao;
@@ -39,5 +42,14 @@ public class VakkenVullerService {
     
     public void deleteAVakkenVuller(VakkenVuller vakkenVuller){
         vakkenvullerDao.remove(vakkenVuller);
+    }
+    
+    public void assignVakkenVullerToLocation(Long vakkenvuller_id, Locatie newLocation){
+        hibSession = StaticContainer.getSession();
+        hibSession.beginTransaction();
+        VakkenVuller foundVakkenVuller = getVakkenVullerById(vakkenvuller_id);
+        foundVakkenVuller.addLocation(newLocation);
+        vakkenvullerDao.update(foundVakkenVuller);
+        hibSession.getTransaction().commit();
     }
 }
