@@ -6,10 +6,12 @@ package ServiceLayer;
 
 import DAOClasses.Dao;
 import DAOClasses.LocatieDao;
+import DAOClasses.PersoonDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import supermarktmanager.Locatie;
+import supermarktmanager.Persoon;
 /**
  *
  * @author Bart
@@ -17,10 +19,12 @@ import supermarktmanager.Locatie;
 public class LocatieService {
     
     private LocatieDao locatieDao;
+    private PersoonDao persoonDao;
     private Session hibSession;
     
-    public void setLocatieDao(Dao locatieDao){
+    public void setLocatieDao(Dao locatieDao, PersoonDao pda){
         this.locatieDao = (LocatieDao)locatieDao;
+        persoonDao = pda;
     }
     
     public void addNewLocatie(Locatie newLocatie){
@@ -89,6 +93,42 @@ public class LocatieService {
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
             locatieDao.remove(locatie);
+            hibSession.flush();
+        } catch(RuntimeException e){
+           System.out.println("Exception e has occured: "+e);
+           hibSession.getTransaction().rollback();
+        } finally{
+            hibSession.close();
+        }
+    }
+    
+    public void assignEmployee(Persoon p, Locatie l)
+    {
+        try{
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            l.addWerknemer(p);
+            p.addLocatie(l);
+            locatieDao.update(l);
+            persoonDao.update(p);
+            hibSession.flush();
+        } catch(RuntimeException e){
+           System.out.println("Exception e has occured: "+e);
+           hibSession.getTransaction().rollback();
+        } finally{
+            hibSession.close();
+        }
+    }
+    
+    public void removeEmployee(Persoon p, Locatie l)
+    {
+        try{
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            l.removeWerknemer(p);
+            p.removeLocatie(l);
+            locatieDao.update(l);
+            persoonDao.update(p);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);

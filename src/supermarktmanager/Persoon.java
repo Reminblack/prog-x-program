@@ -42,4 +42,14 @@ public abstract class Persoon {
     public void setMemberName(String memberName) {
         this.Name = memberName;
     }
+    
+    public void addLocatie(Locatie l)
+    {
+        werkplekken.add(l);
+    }
+    
+    public void removeLocatie(Locatie l)
+    {
+        werkplekken.remove(l);
+    }
 }

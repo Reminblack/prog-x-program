@@ -6,19 +6,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Locatie {
+
     @Id
     @GeneratedValue
     private Long id;
-    
-        @ManyToMany
+    @ManyToMany
     private List<Persoon> werkPersonen = new ArrayList<Persoon>();
-        
-        @ManyToOne
-        private List<Container> containers = new ArrayList<Container>();
+    @OneToMany
+    private List<Container> containers = new ArrayList<Container>();
 
     public List<Persoon> getWerkpersonen() {
         return werkPersonen;
@@ -43,24 +42,20 @@ public class Locatie {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public void addContainer(Container c)
-    {
+
+    public void addContainer(Container c) {
         containers.add(c);
     }
-    
-    public void removeContainer(Container c)
-    {
+
+    public void removeContainer(Container c) {
         containers.remove(c);
     }
-    
-    public void addWerknemer(Persoon p)
-    {
+
+    public void addWerknemer(Persoon p) {
         werkPersonen.add(p);
     }
-    
-    public void removeWerknemer(Persoon p)
-    {
+
+    public void removeWerknemer(Persoon p) {
         werkPersonen.remove(p);
     }
 }
