@@ -54,10 +54,10 @@ public class ProductServices {
             hibSession = ServiceLayer.StaticContainer.getSession();
             hibSession.beginTransaction();
             
-            supermarktmanager.ProductHistory[] allHistory = new supermarktmanager.ProductHistory[]{};
+            //supermarktmanager.ProductHistory[] allHistory = new supermarktmanager.ProductHistory[]{};
             allHistory = historyDao.retrieveHistoryAssociatedWithAProduct(p).toArray(allHistory);
-            
-            for (ProductHistory ph : allHistory) {
+            historyService.getAllProductHistories();
+            for (ProductHistory ph : productHistoryService.retrieveHistoryAssociatedWithAProduct(p)) {
                 historyDao.remove(ph);
             }
             productDao.remove(p);            

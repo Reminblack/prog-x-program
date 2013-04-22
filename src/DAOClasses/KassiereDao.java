@@ -5,7 +5,6 @@
 package DAOClasses;
 
 import java.util.List;
-import org.hibernate.classic.Session;
 import supermarktmanager.Kassiere;
 import supermarktmanager.newHibernateUtil;
 
@@ -13,33 +12,33 @@ import supermarktmanager.newHibernateUtil;
  *
  * @author Bart
  */
-public class KassiereDao implements Dao<Kassiere>{
+public class KassiereDao extends PersoonDao implements Dao<Kassiere>{
     
     public KassiereDao(){
     }
     
     @Override
     public void create(Kassiere newKassiere){
-        newHibernateUtil.getSessionFactory().getCurrentSession().save(newKassiere);
+        super.createNewPersoon(newKassiere);
     }
     
     @Override
     public void update(Kassiere updatedKassiere){
-        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedKassiere);
+        super.updatePersoon(updatedKassiere);
     }
     
     @Override
     public Kassiere retrieve(Long kassiere_id){
-        return (Kassiere) newHibernateUtil.getSessionFactory().getCurrentSession().get(Kassiere.class, kassiere_id);
+        return (Kassiere) super.getPersoon(kassiere_id);
     }
     
     @Override
     public List<Kassiere> retrieveAll(){
-        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from Kassiere").list();
+        return super.getAllPersonen("Kassiere");
     }
     
     @Override
     public void remove(Kassiere deletedKassiere){
-        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletedKassiere);
+        super.deletePersoon(deletedKassiere);
     }
 }

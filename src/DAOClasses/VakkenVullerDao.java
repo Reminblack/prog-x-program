@@ -12,33 +12,33 @@ import supermarktmanager.newHibernateUtil;
  *
  * @author Bart
  */
-public class VakkenVullerDao implements Dao<VakkenVuller>{
+public class VakkenVullerDao extends PersoonDao implements Dao<VakkenVuller>{
     
     public VakkenVullerDao(){
     }
     
     @Override
     public void create(VakkenVuller newVakkenVuller){
-        newHibernateUtil.getSessionFactory().getCurrentSession().save(newVakkenVuller);
+        super.createNewPersoon(newVakkenVuller);
     }
     
     @Override
     public void update(VakkenVuller updatedVakkenVuller){
-        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedVakkenVuller);
+        super.updatePersoon(updatedVakkenVuller);
     }
     
     @Override
     public VakkenVuller retrieve(Long vakkenVuller_id){
-        return (VakkenVuller) newHibernateUtil.getSessionFactory().getCurrentSession().get(VakkenVuller.class, vakkenVuller_id);
+        return (VakkenVuller) super.getPersoon(vakkenVuller_id);
     }
     
     @Override
     public List<VakkenVuller> retrieveAll(){
-        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from VakkenVuller").list();
+        return super.getAllPersonen("VakkenVuller");
     }
     
     @Override
     public void remove(VakkenVuller deletedVakkenVuller){
-        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletedVakkenVuller);
+        super.deletePersoon(deletedVakkenVuller);
     }
 }

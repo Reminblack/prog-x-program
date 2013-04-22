@@ -26,7 +26,7 @@ public class ProductHistoryService {
     
     public void addNewProductHistory(Product associatedProduct) throws RuntimeException{
         ProductHistory newProductHistory = new ProductHistory();
-        ProductHistory.setProductId(associatedProduct);
+        newProductHistory.setProductId(associatedProduct);
         newProductHistory.setPrijs(associatedProduct.getPrijs());
         productHistoryDao.create(newProductHistory);
     }
@@ -89,5 +89,9 @@ public class ProductHistoryService {
         } finally{
             hibSession.close();
         }
+    }
+    
+    public List<ProductHistory> getAllHistoryAssociatedWithProduct(Product associatedProduct){
+        return hibSession.createQuery("from History WHERE product='"+associatedProduct+"'").list();
     }
 }

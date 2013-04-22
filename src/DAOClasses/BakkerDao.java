@@ -12,7 +12,7 @@ import supermarktmanager.newHibernateUtil;
  *
  * @author Bart
  */
-public class BakkerDao implements Dao<Bakker>{
+public class BakkerDao extends PersoonDao implements Dao<Bakker>{
    
     public BakkerDao(){
         
@@ -20,26 +20,26 @@ public class BakkerDao implements Dao<Bakker>{
     
     @Override
     public void create(Bakker newBakker){
-        newHibernateUtil.getSessionFactory().getCurrentSession().save(newBakker);
+        super.createNewPersoon(newBakker);
     }
     
     @Override
     public void update(Bakker updatedBakker){
-        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedBakker);
+        super.updatePersoon(updatedBakker);
     }
     
     @Override
     public Bakker retrieve(Long Bakker_id){
-        return (Bakker) newHibernateUtil.getSessionFactory().getCurrentSession().get(Bakker.class, Bakker_id);
+        return (Bakker) super.getPersoon(Bakker_id);
     }
     
     @Override
     public List<Bakker> retrieveAll(){
-        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from Bakker").list();
+        return super.getAllPersonen("Bakker");
     }
     
     @Override
     public void remove(Bakker deletedBakker){
-        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletedBakker);
+        super.deletePersoon(deletedBakker);
     }
 }
