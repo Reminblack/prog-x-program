@@ -2,27 +2,28 @@ package supermarktmanager;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
-//djfewiofwehofiwehfowe
-
 @Entity
 public class ProductHistory implements Serializable {
-    
+
     @Id
     @GeneratedValue
     private Long id;
-    
     @ManyToOne
     private Product productId;
+    @Column(nullable = false)
+    private float prijs;
+
     
     private int aantal = 0;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateBegin = new Date();
+    private Date dateBegin;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEind;
 
@@ -58,5 +59,19 @@ public class ProductHistory implements Serializable {
         this.dateEind = dateEind;
     }
     
-    
+    public Product getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Product productId) {
+        this.productId = productId;
+    }
+
+    public float getPrijs() {
+        return prijs;
+    }
+
+    public void setPrijs(float prijs) {
+        this.prijs = prijs;
+    }
 }

@@ -15,27 +15,25 @@ import supermarktmanager.newHibernateUtil;
 public class DAOContainer {
     public static SessionFactory sessionFactory;
     public static Session session;
-    public static BakkerDAO bakker;
-    public static ContainerDAO container;
-    public static KassiereDAO kassiere;
-    public static LocatieDAO locatie;
-    public static PersoonDAO persoon;
-    public static ProductDAO product;
-    public static ProductHistoryDAO history;
-    public static SlagerDAO slager;
-    public static VakkenVullerDAO vakkenvuller;
+    public static BakkerDao bakker;
+    public static ContainerDao container;
+    public static KassiereDao kassiere;
+    public static LocatieDao locatie;
+    public static ProductDao product;
+    public static ProductHistoryDao history;
+    public static SlagerDao slager;
+    public static VakkenVullerDao vakkenvuller;
     public DAOContainer()
     {
     sessionFactory = newHibernateUtil.getSessionFactory();
     session = sessionFactory.getCurrentSession();
-    bakker = new BakkerDAO();
-    container = new ContainerDAO();
-    kassiere = new KassiereDAO();
-    locatie = new LocatieDAO();
-    persoon = new PersoonDAO();
-    product = new ProductDAO();
-    history = new ProductHistoryDAO();
-    slager = new SlagerDAO();
-    vakkenvuller = new VakkenVullerDAO();
+    bakker = new BakkerDao();
+    container = new ContainerDao();
+    kassiere = new KassiereDao();
+    locatie = new LocatieDao();
+    product = new ProductDao();
+    history = new ProductHistoryDao();
+    slager = new SlagerDao();
+    vakkenvuller = new VakkenVullerDao();
     }
 }
