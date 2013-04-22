@@ -2,32 +2,32 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServiceContainer;
+package ServiceLayer;
 
+import DAOClasses.BakkerDao;
 import DAOClasses.Dao;
-import DAOClasses.KassiereDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import supermarktmanager.Kassiere;
+import supermarktmanager.Bakker;
 
 /**
  *
  * @author Bart
  */
-public class KassiereService {
-    private KassiereDao kassiereDao;
+public class BakkerService {
+    private BakkerDao bakkerDao;
     private Session hibSession;
     
-    public void setKassiereDAO(Dao kassiereDao){
-        this.kassiereDao = (KassiereDao)kassiereDao;
+    public void setBakkerDAO(Dao bakkerDao){
+        this.bakkerDao = (BakkerDao)bakkerDao;
     }
     
-    public void addNewKassiere(Kassiere newKassiere){
+    public void addNewBakker(Bakker newBakker){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            kassiereDao.create(newKassiere);
+            bakkerDao.create(newBakker);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -37,63 +37,63 @@ public class KassiereService {
        }
     }
     
-    public void updateKassiere(Kassiere updatedKassiere){
+    public void updateBakker(Bakker updatedBakker){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            kassiereDao.update(updatedKassiere);
+            bakkerDao.update(updatedBakker);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+       } finally{
+           hibSession.close();
+       }
     }
     
-    public Kassiere getKassiereById(Long kassiere_id)
+    public Bakker getBakkerById(Long bakker_id)
     {
-        Kassiere foundKassiere = null;
+        Bakker foundBakker = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundKassiere = kassiereDao.retrieve(kassiere_id);
+            foundBakker = bakkerDao.retrieve(bakker_id);
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
-        return foundKassiere;
+       } finally{
+           hibSession.close();
+       }
+        return foundBakker;
     }
     
-    public List<Kassiere> getAllKassieres()
+    public List<Bakker> getAllBakkers()
     {
-        List<Kassiere> foundKassieres = null;
+        List<Bakker> foundBakkers = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundKassieres = new ArrayList(kassiereDao.retrieveAll());
+        foundBakkers = new ArrayList(bakkerDao.retrieveAll());
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
-        return foundKassieres;
+       } finally{
+           hibSession.close();
+       }
+        return foundBakkers;
     }
     
-    public void deleteAKassiere(Kassiere kassiere){
+    public void deleteABakker(Bakker bakker){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            kassiereDao.remove(kassiere);
+            bakkerDao.remove(bakker);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+       } finally{
+           hibSession.close();
+       }
     }
 }

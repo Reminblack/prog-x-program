@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServiceContainer;
+package ServiceLayer;
 
 import DAOClasses.Dao;
 import DAOClasses.VakkenVullerDao;

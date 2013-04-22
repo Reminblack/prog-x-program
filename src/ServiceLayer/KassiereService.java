@@ -2,32 +2,46 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServiceContainer;
+package ServiceLayer;
 
 import DAOClasses.Dao;
-import DAOClasses.LocatieDao;
+import DAOClasses.KassiereDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import supermarktmanager.Locatie;
+import supermarktmanager.Kassiere;
+
 /**
  *
  * @author Bart
  */
-public class LocatieService {
-    
-    private LocatieDao locatieDao;
+public class KassiereService {
+    private KassiereDao kassiereDao;
     private Session hibSession;
     
-    public void setLocatieDao(Dao locatieDao){
-        this.locatieDao = (LocatieDao)locatieDao;
+    public void setKassiereDAO(Dao kassiereDao){
+        this.kassiereDao = (KassiereDao)kassiereDao;
     }
     
-    public void addNewLocatie(Locatie newLocatie){
+    public void addNewKassiere(Kassiere newKassiere){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            locatieDao.create(newLocatie);
+            kassiereDao.create(newKassiere);
+            hibSession.flush();
+        } catch(RuntimeException e){
+           System.out.println("Exception e has occured: "+e);
+           hibSession.getTransaction().rollback();
+       } finally{
+           hibSession.close();
+       }
+    }
+    
+    public void updateKassiere(Kassiere updatedKassiere){
+        try{
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            kassiereDao.update(updatedKassiere);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -37,58 +51,43 @@ public class LocatieService {
         }
     }
     
-    public void updateLocatie(Locatie updatedLocatie){
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            locatieDao.update(updatedLocatie);
-            hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
-    }
-    
-    public Locatie getLocatieById(Long locatie_id)
+    public Kassiere getKassiereById(Long kassiere_id)
     {
-        Locatie foundLocatie = null;
+        Kassiere foundKassiere = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundLocatie = locatieDao.retrieve(locatie_id);
+            foundKassiere = kassiereDao.retrieve(kassiere_id);
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
             hibSession.close();
         }
-        return foundLocatie;
+        return foundKassiere;
     }
     
-    public List<Locatie> getAllLocaties()
+    public List<Kassiere> getAllKassieres()
     {
-        List<Locatie> foundLocations = null;
+        List<Kassiere> foundKassieres = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundLocations = new ArrayList(locatieDao.retrieveAll());
-            hibSession.getTransaction().commit();
+            foundKassieres = new ArrayList(kassiereDao.retrieveAll());
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
             hibSession.close();
         }
-        return foundLocations;
+        return foundKassieres;
     }
     
-    public void deleteALocatie(Locatie locatie){
+    public void deleteAKassiere(Kassiere kassiere){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            locatieDao.remove(locatie);
+            kassiereDao.remove(kassiere);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);

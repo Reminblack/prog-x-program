@@ -2,98 +2,99 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServiceContainer;
+package ServiceLayer;
 
-import DAOClasses.BakkerDao;
 import DAOClasses.Dao;
+import DAOClasses.LocatieDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import supermarktmanager.Bakker;
-
+import supermarktmanager.Locatie;
 /**
  *
  * @author Bart
  */
-public class BakkerService {
-    private BakkerDao bakkerDao;
+public class LocatieService {
+    
+    private LocatieDao locatieDao;
     private Session hibSession;
     
-    public void setBakkerDAO(Dao bakkerDao){
-        this.bakkerDao = (BakkerDao)bakkerDao;
+    public void setLocatieDao(Dao locatieDao){
+        this.locatieDao = (LocatieDao)locatieDao;
     }
     
-    public void addNewBakker(Bakker newBakker){
+    public void addNewLocatie(Locatie newLocatie){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            bakkerDao.create(newBakker);
+            locatieDao.create(newLocatie);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        } finally{
+            hibSession.close();
+        }
     }
     
-    public void updateBakker(Bakker updatedBakker){
+    public void updateLocatie(Locatie updatedLocatie){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            bakkerDao.update(updatedBakker);
+            locatieDao.update(updatedLocatie);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        } finally{
+            hibSession.close();
+        }
     }
     
-    public Bakker getBakkerById(Long bakker_id)
+    public Locatie getLocatieById(Long locatie_id)
     {
-        Bakker foundBakker = null;
+        Locatie foundLocatie = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundBakker = bakkerDao.retrieve(bakker_id);
+            foundLocatie = locatieDao.retrieve(locatie_id);
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
-        return foundBakker;
+        } finally{
+            hibSession.close();
+        }
+        return foundLocatie;
     }
     
-    public List<Bakker> getAllBakkers()
+    public List<Locatie> getAllLocaties()
     {
-        List<Bakker> foundBakkers = null;
+        List<Locatie> foundLocations = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-        foundBakkers = new ArrayList(bakkerDao.retrieveAll());
+            foundLocations = new ArrayList(locatieDao.retrieveAll());
+            hibSession.getTransaction().commit();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
-        return foundBakkers;
+        } finally{
+            hibSession.close();
+        }
+        return foundLocations;
     }
     
-    public void deleteABakker(Bakker bakker){
+    public void deleteALocatie(Locatie locatie){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            bakkerDao.remove(bakker);
+            locatieDao.remove(locatie);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        } finally{
+            hibSession.close();
+        }
     }
 }

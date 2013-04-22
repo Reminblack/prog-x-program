@@ -1,8 +1,8 @@
 package supermarktmanager;
 
-import ServiceContainer.LocatieService;
-import ServiceContainer.StaticContainer;
-import ServiceContainer.VakkenVullerService;
+import ServiceLayer.LocatieService;
+import ServiceLayer.StaticContainer;
+import ServiceLayer.VakkenVullerService;
 import org.hibernate.SessionFactory;
 
 public class Supermarktmanager {

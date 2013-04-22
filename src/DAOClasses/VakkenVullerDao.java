@@ -5,7 +5,6 @@
 package DAOClasses;
 
 import java.util.List;
-import org.hibernate.Session;
 import supermarktmanager.VakkenVuller;
 import supermarktmanager.newHibernateUtil;
 
