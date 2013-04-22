@@ -7,41 +7,86 @@ import java.util.List;
 
 public class Main extends javax.swing.JFrame {
 
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
     private DAOContainer container;
 
     public Main() {
         container = new DAOContainer();
         initComponents();
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                System.out.println((String) info.getName());
+        }
+
     }
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable() {
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                if (colIndex != 0) {
+                    return true;
+                }
+                return false;
+            }
+        };
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable2 = new javax.swing.JTable() {
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                if (colIndex != 0) {
+                    return true;
+                }
+                return false;
+            }
+        };
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTable3 = new javax.swing.JTable() {
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                if (colIndex != 0) {
+                    return true;
+                }
+                return false;
+            }
+        };
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        jTable4 = new javax.swing.JTable() {
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                if (colIndex != 0) {
+                    return true;
+                }
+                return false;
+            }
+        };
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable() {
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                if (colIndex != 0) {
+                    return true;
+                }
+                return false;
+            }
+        };
 
-        jButton1.setText("jButton1");
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Supermarktmanager");
@@ -51,20 +96,16 @@ public class Main extends javax.swing.JFrame {
         DAOContainer.session.beginTransaction();
         List<Product> producten = DAOContainer.product.getAllProducts();
         List<Container> containers = DAOContainer.container.getAllContainers();
-        
         List<Kassiere> kassieren = DAOContainer.kassiere.getAllKassieres();
         List<Slager> slagers = DAOContainer.slager.getAllSlagers();
         List<Bakker> bakkers = DAOContainer.bakker.getAllBakkers();
         List<VakkenVuller> vakkenvullers = DAOContainer.vakkenvuller.getAllVakkenVullers();
-        
         List<ProductHistory> history = DAOContainer.history.getAllProductHistories();
         DAOContainer.session.getTransaction().commit();
 
         List llist = producten;
         List<Object> objlist = (List<Object>) llist;
         FetchTabel f = new FetchTabel();
-
-        System.out.println(Arrays.toString(f.Fetch(objlist)));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 f.Fetch(objlist),
@@ -77,31 +118,31 @@ public class Main extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null}
+            {null, null, null},
+            {null, null, null},
+            {null, null, null},
+            {null, null, null}
         },
                 new String[]{
-            "Title 1", "Title 2", "Title 3", "Title 4"
+            "Id", "Locatie", "Type"
         }));
         jScrollPane2.setViewportView(jTable2);
 
-        jTabbedPane1.addTab("tab2", jScrollPane2);
+        jTabbedPane1.addTab("Containers", jScrollPane2);
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-            {"Waarde", 1, 2, 3},
+            {null, null, null, null},
             {null, null, null, null},
             {null, null, null, null},
             {null, null, null, null}
         },
                 new String[]{
-            "Title 1", "Title 2", "Title 3", "Title 4"
+            "Id", "Aantal", "Datum Begin", "Datum Eind"
         }));
         jScrollPane3.setViewportView(jTable3);
 
-        jTabbedPane1.addTab("tab3", jScrollPane3);
+        jTabbedPane1.addTab("Geschiedenis", jScrollPane3);
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
@@ -115,9 +156,29 @@ public class Main extends javax.swing.JFrame {
         }));
         jScrollPane4.setViewportView(jTable4);
 
-        jTabbedPane1.addTab("tab4", jScrollPane4);
+        jTabbedPane1.addTab("Personeel", jScrollPane4);
+
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null}
+        },
+                new String[]{
+            "Title 1", "Title 2", "Title 3", "Title 4"
+        }));
+        jScrollPane5.setViewportView(jTable5);
+
+        jTabbedPane1.addTab("Locatie", jScrollPane5);
 
         jButton2.setText("Opslaan");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,15 +204,14 @@ public class Main extends javax.swing.JFrame {
         pack();
     }
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        System.out.println("Tab: " + jTabbedPane1.getSelectedIndex());
+    }
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -165,8 +225,6 @@ public class Main extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

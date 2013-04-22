@@ -5,7 +5,7 @@ import java.util.List;
 import supermarktmanager.Container;
 import supermarktmanager.Persoon;
 import supermarktmanager.Product;
-import supermarktmanager.ProductGeschiedenis;
+import supermarktmanager.ProductHistory;
 
 public class FetchTabel {
 
@@ -17,7 +17,7 @@ public class FetchTabel {
             
         } else if (tabel instanceof Container) {
             
-        } else if (tabel instanceof ProductGeschiedenis) {
+        } else if (tabel instanceof ProductHistory) {
             
         } else if (tabel instanceof Product) {
             List<Product> producten = (List<Product>) convertlist;
