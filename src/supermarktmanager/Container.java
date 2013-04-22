@@ -41,4 +41,14 @@ public class Container {
     public void setType(String type) {
         this.type = type;
     }
+    
+    public void addProduct(Product p)
+    {
+        products.add(p);
+    }
+    
+    public void removeProduct(Product p)
+    {
+        products.remove(p);
+    }
 }
