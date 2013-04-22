@@ -22,12 +22,16 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
         
-        
         <mapping class="supermarktmanager.Product" />
         <mapping class="supermarktmanager.VakkenVuller" />
         <mapping class="supermarktmanager.Locatie" />
         <mapping class="supermarktmanager.Container" />
         <mapping class="supermarktmanager.ProductHistory" />
+        <mapping class="supermarktmanager.Kassiere" />
+        <mapping class="supermarktmanager.Slager" />
+        <mapping class="supermarktmanager.Bakker" />
+        <mapping class="supermarktmanager.VakkenVuller" />
+        <mapping class="supermarktmanager.Persoon" />
 
     </session-factory>
 </hibernate-configuration>

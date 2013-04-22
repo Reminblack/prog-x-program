@@ -96,10 +96,12 @@ public class Main extends javax.swing.JFrame {
         DAOContainer.session.beginTransaction();
         List<Product> producten = DAOContainer.product.getAllProducts();
         List<Container> containers = DAOContainer.container.getAllContainers();
+        
         List<Kassiere> kassieren = DAOContainer.kassiere.getAllKassieres();
         List<Slager> slagers = DAOContainer.slager.getAllSlagers();
         List<Bakker> bakkers = DAOContainer.bakker.getAllBakkers();
         List<VakkenVuller> vakkenvullers = DAOContainer.vakkenvuller.getAllVakkenVullers();
+        
         List<ProductHistory> history = DAOContainer.history.getAllProductHistories();
         DAOContainer.session.getTransaction().commit();
 
