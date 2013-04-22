@@ -5,35 +5,44 @@
 package DAOClasses;
 
 import java.util.List;
+import org.hibernate.Session;
 import supermarktmanager.Slager;
+import supermarktmanager.newHibernateUtil;
 
 /**
  *
  * @author Bart
  */
-public class SlagerDAO extends PersoonDAO{
+public class SlagerDao implements Dao<Slager>{
     
-    public SlagerDAO(){
-        
+    private Session HibSession;
+    
+    public SlagerDao(){
+        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void createNewSlager(Slager newSlager){
-        super.createNewPersoon(newSlager);
+    @Override
+    public void create(Slager newSlager){
+        HibSession.save(newSlager);
     }
     
-    public void updateSlager(Slager updatedSlager){
-        super.updatePersoon(updatedSlager);
+    @Override
+    public void update(Slager updatedSlager){
+        HibSession.update(updatedSlager);
     }
     
-    public Slager getKassiere(Long slager_id){
-        return (Slager) super.getPersoon(slager_id);
+    @Override
+    public Slager retrieve(Long slager_id){
+        return (Slager) HibSession.get(Slager.class, slager_id);
     }
     
-    public List<Slager> getAllSlagers(){
-        return super.getAllPersonen("Slager");
+    @Override
+    public List<Slager> retrieveAll(){
+        return HibSession.createQuery("from Slager").list();
     }
     
-    public void deleteSlager(Slager deletedSlager){
-        super.deletePersoon(deletedSlager);
+    @Override
+    public void remove(Slager deletedSlager){
+        HibSession.delete(deletedSlager);
     }
 }

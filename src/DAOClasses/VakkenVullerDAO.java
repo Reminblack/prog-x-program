@@ -5,35 +5,44 @@
 package DAOClasses;
 
 import java.util.List;
+import org.hibernate.Session;
 import supermarktmanager.VakkenVuller;
+import supermarktmanager.newHibernateUtil;
 
 /**
  *
  * @author Bart
  */
-public class VakkenVullerDAO extends PersoonDAO{
+public class VakkenVullerDao implements Dao<VakkenVuller>{
     
-    public VakkenVullerDAO(){
-         
+    private Session HibSession;
+    
+    public VakkenVullerDao(){
+        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void createNewVakkenVuller(VakkenVuller newVakkenVuller){
-        super.createNewPersoon(newVakkenVuller);
+    @Override
+    public void create(VakkenVuller newVakkenVuller){
+        HibSession.save(newVakkenVuller);
     }
     
-    public void updateVakkenVuller(VakkenVuller updatedVakkenVuller){
-        super.updatePersoon(updatedVakkenVuller);
+    @Override
+    public void update(VakkenVuller updatedVakkenVuller){
+        HibSession.update(updatedVakkenVuller);
     }
     
-    public VakkenVuller getVakkenVuller(Long vakkenVuller_id){
-        return (VakkenVuller) super.getPersoon(vakkenVuller_id);
+    @Override
+    public VakkenVuller retrieve(Long vakkenVuller_id){
+        return (VakkenVuller) HibSession.get(VakkenVuller.class, vakkenVuller_id);
     }
     
-    public List<VakkenVuller> getAllVakkenVullers(){
-        return super.getAllPersonen("VakkenVuller");
+    @Override
+    public List<VakkenVuller> retrieveAll(){
+        return HibSession.createQuery("from VakkenVuller").list();
     }
     
-    public void deleteProduct(VakkenVuller deletedVakkenVuller){
-        super.deletePersoon(deletedVakkenVuller);
+    @Override
+    public void remove(VakkenVuller deletedVakkenVuller){
+        HibSession.delete(deletedVakkenVuller);
     }
 }

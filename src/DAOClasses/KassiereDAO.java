@@ -5,35 +5,44 @@
 package DAOClasses;
 
 import java.util.List;
+import org.hibernate.classic.Session;
 import supermarktmanager.Kassiere;
+import supermarktmanager.newHibernateUtil;
 
 /**
  *
  * @author Bart
  */
-public class KassiereDAO extends PersoonDAO{
+public class KassiereDao implements Dao<Kassiere>{
     
-    public KassiereDAO(){
-        
+    private Session HibSession;
+    
+    public KassiereDao(){
+        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void createNewKassiere(Kassiere newKassiere){
-        super.createNewPersoon(newKassiere);
+    @Override
+    public void create(Kassiere newKassiere){
+        HibSession.save(newKassiere);
     }
     
-    public void updateKassiere(Kassiere updatedKassiere){
-        super.updatePersoon(updatedKassiere);
+    @Override
+    public void update(Kassiere updatedKassiere){
+        HibSession.update(updatedKassiere);
     }
     
-    public Kassiere getKassiere(Long kassiere_id){
-        return (Kassiere) super.getPersoon(kassiere_id);
+    @Override
+    public Kassiere retrieve(Long kassiere_id){
+        return (Kassiere) HibSession.get(Kassiere.class, kassiere_id);
     }
     
-    public List<Kassiere> getAllKassieres(){
-        return super.getAllPersonen("Kassiere");
+    @Override
+    public List<Kassiere> retrieveAll(){
+        return HibSession.createQuery("from Kassiere").list();
     }
     
-    public void deleteKassiere(Kassiere deletedKassiere){
-        super.deletePersoon(deletedKassiere);
+    @Override
+    public void remove(Kassiere deletedKassiere){
+        HibSession.delete(deletedKassiere);
     }
 }

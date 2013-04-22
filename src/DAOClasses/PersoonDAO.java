@@ -12,11 +12,11 @@ import supermarktmanager.*;
  *
  * @author Bart
  */
-public class PersoonDAO {
+public abstract class PersoonDao{
     
     private Session HibSession;
     
-    public PersoonDAO(){
+    public PersoonDao(){
         HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     

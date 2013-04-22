@@ -5,35 +5,44 @@
 package DAOClasses;
 
 import java.util.List;
+import org.hibernate.classic.Session;
 import supermarktmanager.Bakker;
+import supermarktmanager.newHibernateUtil;
 
 /**
  *
  * @author Bart
  */
-public class BakkerDAO extends PersoonDAO{
+public class BakkerDao implements Dao<Bakker>{
+   
+    private Session HibSession;
     
-    public BakkerDAO(){
-        
+    public BakkerDao(){
+        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void createNewBakker(Bakker newBakker){
-        super.createNewPersoon(newBakker);
+    @Override
+    public void create(Bakker newBakker){
+        HibSession.save(newBakker);
     }
     
-    public void updateBakker(Bakker updatedBakker){
-        super.updatePersoon(updatedBakker);
+    @Override
+    public void update(Bakker updatedBakker){
+        HibSession.update(updatedBakker);
     }
     
-    public Bakker getBakker(Long Bakker_id){
-        return (Bakker) super.getPersoon(Bakker_id);
+    @Override
+    public Bakker retrieve(Long Bakker_id){
+        return (Bakker) HibSession.get(Bakker.class, Bakker_id);
     }
     
-    public List<Bakker> getAllBakkers(){
-        return super.getAllPersonen("Bakker");
+    @Override
+    public List<Bakker> retrieveAll(){
+        return HibSession.createQuery("from Bakker").list();
     }
     
-    public void deleteBakker(Bakker deletedBakker){
-        super.getAllPersonen("Bakker");
+    @Override
+    public void remove(Bakker deletedBakker){
+        HibSession.delete(deletedBakker);
     }
 }
