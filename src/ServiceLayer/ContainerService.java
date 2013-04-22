@@ -7,6 +7,7 @@ package ServiceLayer;
 import DAOClasses.ContainerDao;
 import DAOClasses.LocatieDao;
 import DAOClasses.ProductDao;
+import java.util.List;
 import org.hibernate.Session;
 import supermarktmanager.*;
 
@@ -115,6 +116,44 @@ public class ContainerService {
         } catch (RuntimeException e) {
             System.out.println("Exception e has occured: " + e);
             hibSession.getTransaction().rollback();
+        } finally {
+            hibSession.close();
+        }
+    }
+    
+    public List<Container> getContent()
+    {
+        try {
+            hibSession = ServiceLayer.StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            List<Container> prod = containerDao.retrieveAll();
+            
+            hibSession.flush();
+            return prod;
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+            return null;
+        } finally {
+            hibSession.close();
+        }
+    }
+    
+    public Container getOneContent(Container p)
+    {
+        try {
+            hibSession = ServiceLayer.StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            Container prod = containerDao.retrieve(p.getId());
+            
+            hibSession.flush();
+            return prod;
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+            return null;
         } finally {
             hibSession.close();
         }

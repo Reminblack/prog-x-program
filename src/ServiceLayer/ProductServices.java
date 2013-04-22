@@ -9,6 +9,7 @@ import DAOClasses.ProductDao;
 import DAOClasses.ProductHistoryDao;
 import supermarktmanager.*;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Session;
 
 /**
@@ -138,4 +139,45 @@ public class ProductServices {
             hibSession.close();
         }
     }
+    
+    
+    public List<Product> getContent()
+    {
+        try {
+            hibSession = ServiceLayer.StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            List<Product> prod = productDao.retrieveAll();
+            
+            hibSession.flush();
+            return prod;
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+            return null;
+        } finally {
+            hibSession.close();
+        }
+    }
+    
+    public Product getOneContent(Product p)
+    {
+        try {
+            hibSession = ServiceLayer.StaticContainer.getSession();
+            hibSession.beginTransaction();
+            
+            Product prod = productDao.retrieve(p.getId());
+            
+            hibSession.flush();
+            return prod;
+        } catch (RuntimeException e) {
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+            return null;
+        } finally {
+            hibSession.close();
+        }
+    }
 }
+
+
