@@ -13,30 +13,35 @@ import supermarktmanager.newHibernateUtil;
  *
  * @author Bart
  */
-public class ContainerDAO {
+public class ContainerDao implements Dao<Container>{
     private Session HibSession;
     
-    public ContainerDAO(){
+    public ContainerDao(){
         HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void createNewContainer(Container newContainer){
-        HibSession.save(newContainer);
+    @Override
+    public void create(Container newObject){
+        HibSession.save(newObject);
     }
     
-    public void updateContainer(Container updatedContainer){
-        HibSession.update(updatedContainer);
+    @Override
+    public void update(Container updatedObject){
+        HibSession.update(updatedObject);
     }
     
-    public Object getContainer(Long container_id){
-        return HibSession.get(Container.class, container_id);
+    @Override
+    public Container retrieve(Long container_id){
+        return (Container)HibSession.get(Container.class, container_id);
     }
     
-    public List<Container> getAllContainers(){
+    @Override
+    public List<Container> retrieveAll(){
         return HibSession.createQuery("from Container").list();
     }
     
-    public void deleteContainer(Container deleteContainer){
+    @Override
+    public void remove(Container deleteContainer){
         HibSession.delete(deleteContainer);
     }
 }
