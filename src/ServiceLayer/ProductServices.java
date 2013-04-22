@@ -15,12 +15,16 @@ import java.util.List;
  */
 public class ProductServices {
     
-    public void saveChanges(supermarktmanager.Product product)
+    public void saveChanges(supermarktmanager.Product product, int aantal)
     {
         DAOContainer.session.beginTransaction();
         supermarktmanager.Product compare = DAOContainer.product.getProduct(product.getId());
         if(compare.getPrijs() != product.getPrijs())
         {
+            if((product.getPrijs()-aantal) >= 0)
+        {
+        product.setPrijs(product.getPrijs()-aantal);
+        }
             supermarktmanager.ProductHistory[] allGeschiedenis = new supermarktmanager.ProductHistory[]{};
             allGeschiedenis = DAOContainer.history.getAllProductHistoriesFromOneProduct(product).toArray(allGeschiedenis);
             
