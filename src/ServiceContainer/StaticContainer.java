@@ -28,6 +28,19 @@ public class StaticContainer {
        LocatieService ls = new LocatieService();
        ls.setLocatieDao(new LocatieDao());
        services.put("LocatieService", ls);
+       
+       BakkerService bs = new BakkerService();
+       bs.setBakkerDAO(new BakkerDao());
+       services.put("BakkerService", bs);
+       
+       KassiereService ks = new KassiereService();
+       ks.setKassiereDAO(new KassiereDao());
+       services.put("KassiereService", ks);
+       
+       SlagerService ss = new SlagerService();
+       ss.setSlagerDAO(new SlagerDao());
+       services.put("SlagerService", ss);
+       
    }
    
    public static StaticContainer getInstance() {

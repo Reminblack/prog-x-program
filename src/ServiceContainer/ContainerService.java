@@ -2,8 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ServiceLayer;
-import DAOClasses.DAOContainer;
+package ServiceContainer;
 import supermarktmanager.*;
 import java.util.List;
 /**
@@ -12,20 +11,20 @@ import java.util.List;
  */
 public class ContainerService {
     public void createContainer(Container c){
-        DAOContainer.session.beginTransaction();
-        DAOContainer.session.save(c);
-        DAOContainer.session.getTransaction().commit();
+        StaticContainer.getSession().beginTransaction();
+        StaticContainer.getSession().save(c);
+        StaticContainer.getSession().getTransaction().commit();
     }
     
     public void deleteContainer(Container c){
-        DAOContainer.session.beginTransaction();
-        DAOContainer.session.delete(c);
-        DAOContainer.session.getTransaction().commit();
+        StaticContainer.getSession().beginTransaction();
+        StaticContainer.getSession().delete(c);
+        StaticContainer.getSession().getTransaction().commit();
     }
     
     public void assignToLocation(Container c, Locatie l)
     {
-        DAOContainer.session.beginTransaction();
+        StaticContainer.getSession().beginTransaction();
         Locatie lTemp = c.getLocatie();
         c.getLocatie().removeContainer(c);
         c.setLocatie(l);
