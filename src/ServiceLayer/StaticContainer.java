@@ -41,6 +41,12 @@ public class StaticContainer {
        ss.setSlagerDAO(new SlagerDao());
        services.put("SlagerService", ss);
        
+       ///new LocatieService
+       ///new PersoonService
+       ///addDao LocatieService
+       ///addDao PersoonService
+       // put
+       // put
    }
    
    public static StaticContainer getInstance() {

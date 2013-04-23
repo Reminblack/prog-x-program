@@ -27,7 +27,7 @@ public class SlagerService {
         hibSession = StaticContainer.getSession();
        try{
             hibSession.beginTransaction();
-            slagerDao.create(newSlager);
+            slagerDao.createNewPersoon(newSlager);
             hibSession.flush();
        } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -57,7 +57,7 @@ public class SlagerService {
        hibSession = StaticContainer.getSession();
        try{
             hibSession.beginTransaction();
-            foundSlager = slagerDao.retrieve(slager_id);
+            foundSlager = slagerDao.getPersoon(slager_id);
        } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();

@@ -27,7 +27,7 @@ public class BakkerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            bakkerDao.create(newBakker);
+            bakkerDao.createNewPersoon(newBakker);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -57,7 +57,7 @@ public class BakkerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundBakker = bakkerDao.retrieve(bakker_id);
+            foundBakker = bakkerDao.getPersoon(bakker_id);
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();

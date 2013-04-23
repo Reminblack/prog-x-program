@@ -27,7 +27,7 @@ public class KassiereService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            kassiereDao.create(newKassiere);
+            kassiereDao.createNewPersoon(newKassiere);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -57,7 +57,7 @@ public class KassiereService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundKassiere = kassiereDao.retrieve(kassiere_id);
+            foundKassiere = kassiereDao.getPersoon(kassiere_id);
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();

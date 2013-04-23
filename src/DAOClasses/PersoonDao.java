@@ -5,38 +5,37 @@
 package DAOClasses;
 
 import java.util.List;
-import org.hibernate.Session;
 import supermarktmanager.*;
 
 /**
  *
  * @author Bart
  */
-public abstract class PersoonDao{
+public class PersoonDao implements Dao<Persoon>{
+    //Masking Dao for all employees
     
-    private Session HibSession;
-    
-    public PersoonDao(){
-        HibSession = newHibernateUtil.getSessionFactory().getCurrentSession();
+    @Override
+    public void create(Persoon newObject) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    protected void createNewPersoon(Persoon newEmployee){
-        HibSession.save(newEmployee);
+
+    @Override
+    public void update(Persoon updatedObject) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    protected void updatePersoon(Persoon updatedEmployee){
-        HibSession.update(updatedEmployee);
+
+    @Override
+    public Persoon retrieve(Long object_id) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    protected Object getPersoon(Long employee_id){
-        return HibSession.get(Persoon.class, employee_id);
+
+    @Override
+    public List<Persoon> retrieveAll() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    protected List getAllPersonen(String employeeType){
-        return HibSession.createQuery("from "+employeeType).list();
-    }
-    
-    protected void deletePersoon(Persoon deletedPersoon){
-        HibSession.delete(deletedPersoon);
+
+    @Override
+    public void remove(Persoon removeObject) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

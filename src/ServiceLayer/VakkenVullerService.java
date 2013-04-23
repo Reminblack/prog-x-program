@@ -29,7 +29,7 @@ public class VakkenVullerService {
         {
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            vakkenvullerDao.create(newVakkenVuller);
+            vakkenvullerDao.createNewPersoon(newVakkenVuller);
             hibSession.flush();
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);
@@ -43,7 +43,7 @@ public class VakkenVullerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            vakkenvullerDao.update(updatedVakkenVuller);
+            vakkenvullerDao.updatePersoon(updatedVakkenVuller);
             hibSession.flush();
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);
@@ -59,7 +59,7 @@ public class VakkenVullerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundVakkenVuller = vakkenvullerDao.retrieve(vakkenVuller_id);
+            foundVakkenVuller = vakkenvullerDao.getPersoon(vakkenVuller_id);
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);
             hibSession.getTransaction().rollback();
@@ -75,7 +75,7 @@ public class VakkenVullerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundVakkenVullers = new ArrayList(vakkenvullerDao.retrieveAll());
+            foundVakkenVullers = new ArrayList(vakkenvullerDao.getAllPersonen());
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);
             hibSession.getTransaction().rollback();
@@ -89,7 +89,7 @@ public class VakkenVullerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            vakkenvullerDao.remove(vakkenVuller);
+            vakkenvullerDao.deletePersoon(vakkenVuller);
             hibSession.flush();
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);
@@ -99,13 +99,13 @@ public class VakkenVullerService {
         }
     }
     
-    public void assignVakkenVullerToLocation(Long vakkenvuller_id, Locatie newLocation){
+    public void assignVakkenVullerToLocation(VakkenVuller vakkenvuller, Locatie newLocation){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            VakkenVuller foundVakkenVuller = getVakkenVullerById(vakkenvuller_id);
-            foundVakkenVuller.addLocation(newLocation);
-            vakkenvullerDao.update(foundVakkenVuller);
+            vakkenvuller.addLocation(newLocation);
+            ((LocatieService)StaticContainer.getService("LocatieService")).;
+            vakkenvullerDao.update(vakkenvuller);
             hibSession.flush();
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);

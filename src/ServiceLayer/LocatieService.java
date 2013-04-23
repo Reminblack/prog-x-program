@@ -27,7 +27,7 @@ public class LocatieService {
         persoonDao = pda;
     }
     
-    public void addNewLocatie(Locatie newLocatie){
+    public void createLocatie(Locatie newLocatie){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
@@ -110,7 +110,7 @@ public class LocatieService {
             l.addWerknemer(p);
             p.addLocatie(l);
             locatieDao.update(l);
-            persoonDao.update(p);
+            persoonDao.updatePersoon(p);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -127,8 +127,12 @@ public class LocatieService {
             hibSession.beginTransaction();
             l.removeWerknemer(p);
             p.removeLocatie(l);
+            //Update persoon (add location persoonObj)
+            //Update Location (add persoon LocationObj)
+            //Save persoon changes (persoonservice.save(persoon P))
+            //Save location changes (this.service.save(Location l))
             locatieDao.update(l);
-            persoonDao.update(p);
+            persoonDao.updatePersoon(p);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
