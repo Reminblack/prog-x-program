@@ -4,12 +4,14 @@
  */
 package ServiceLayer;
 
-import DAOClasses.ContainerDao;
 import DAOClasses.ProductDao;
-import DAOClasses.ProductHistoryDao;
-import supermarktmanager.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Session;
+import supermarktmanager.Container;
+import supermarktmanager.Product;
+import supermarktmanager.ProductHistory;
 
 /**
  *
@@ -49,16 +51,60 @@ public class ProductServices {
         }
     }
     
+    public void updateProduct(Product updatedProduct){
+        try{
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            productDao.update(updatedProduct);
+            hibSession.flush();
+        } catch(RuntimeException e){
+           System.out.println("Exception e has occured: "+e);
+           hibSession.getTransaction().rollback();
+        } finally{
+            hibSession.close();
+        }
+    }
+    
+    public Product getProductById(Long product_id)
+    {
+        Product foundProduct = null;
+        try{
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            foundProduct = productDao.retrieve(product_id);
+        } catch(RuntimeException e){
+           System.out.println("Exception e has occured: "+e);
+           hibSession.getTransaction().rollback();
+        } finally{
+            hibSession.close();
+        }
+        return foundProduct;
+    }
+    
+    public List<Product> getAllProducts()
+    {
+        List<Product> foundProducts = null;
+        try{
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            foundProducts = new ArrayList(productDao.retrieveAll());
+        } catch(RuntimeException e){
+           System.out.println("Exception e has occured: "+e);
+           hibSession.getTransaction().rollback();
+        } finally{
+            hibSession.close();
+        }
+        return foundProducts;
+    }
+    
     public void deleteProduct(Product p) {
         try {
             hibSession = ServiceLayer.StaticContainer.getSession();
             hibSession.beginTransaction();
             
-            //supermarktmanager.ProductHistory[] allHistory = new supermarktmanager.ProductHistory[]{};
-            allHistory = historyDao.retrieveHistoryAssociatedWithAProduct(p).toArray(allHistory);
             historyService.getAllProductHistories();
-            for (ProductHistory ph : productHistoryService.retrieveHistoryAssociatedWithAProduct(p)) {
-                historyDao.remove(ph);
+            for (ProductHistory ph : historyService.getAllHistoryAssociatedWithProduct(p)) {
+                historyService.deleteAProductHistory(ph);
             }
             productDao.remove(p);            
             hibSession.flush();
@@ -72,34 +118,30 @@ public class ProductServices {
     
     
     
-    public void saveChanges(supermarktmanager.Product product, Container c) {
+    public void saveChanges(Product product, Container c) {
         try {
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            supermarktmanager.Product compare = productDao.retrieve(product.getId());
-            if (compare.getPrijs() != product.getPrijs()) {
-                supermarktmanager.ProductHistory[] allGeschiedenis = new supermarktmanager.ProductHistory[]{};
-                allGeschiedenis = historyDao.retrieveHistoryAssociatedWithAProduct(product).toArray(allGeschiedenis);
-                
-                supermarktmanager.ProductHistory currentGeschiedenis = allGeschiedenis[0];
-                for (supermarktmanager.ProductHistory history : allGeschiedenis) {
+            Product oldProduct = productDao.retrieve(product.getId());
+            if (oldProduct.getPrijs() != product.getPrijs()) {
+                ProductHistory currentGeschiedenis = null;
+                for (ProductHistory history : historyService.getAllHistoryAssociatedWithProduct(product)) {
                     if (history.getDateEind() == null) {
                         currentGeschiedenis = history;
                     }
                 }
-                Date date = new Date();
-                currentGeschiedenis.setDateEind(date);
-                supermarktmanager.ProductHistory newHistory = new supermarktmanager.ProductHistory();
-                newHistory.setPrijs(product.getPrijs());
-                newHistory.setProductId(product);
-                historyDao.update(currentGeschiedenis);
-                historyDao.create(newHistory);
+                if(currentGeschiedenis == null){
+                    System.out.println("CurrentGeschiedenis is null");
+                }
+                currentGeschiedenis.setDateEind(new Date());
+                
+                historyService.addNewProductHistory(product);
             }
-            if (product.getRek() != compare.getRek()) {
-                compare.getRek().removeProduct(product);
-                product.getRek().addProduct(product);
-                containerDao.update(compare.getRek());
-                containerDao.update(product.getRek());
+            if (product.getRek() != oldProduct.getRek()) {
+                //oldProduct.getRek().removeProduct(product);
+                //product.getRek().addProduct(product);
+                //containerDao.update(oldProduct.getRek());
+                //containerDao.update(product.getRek());
             }
             productDao.update(product);
             hibSession.flush();
@@ -112,32 +154,30 @@ public class ProductServices {
     }
     
     public void verkoopProduct(Product product, int aantal) {
-        try {
-            hibSession = ServiceLayer.StaticContainer.getSession();
-            hibSession.beginTransaction();
-            if ((product.getAantal() - aantal) >= 0) {
+        if ((product.getAantal() - aantal) >= 0) {
+            try {
+                hibSession = StaticContainer.getSession();
+                hibSession.beginTransaction();
                 product.setAantal(product.getAantal() - aantal);
-                
-                supermarktmanager.ProductHistory[] allGeschiedenis = new supermarktmanager.ProductHistory[]{};
-                allGeschiedenis = historyDao.retrieveHistoryAssociatedWithAProduct(product).toArray(allGeschiedenis);
-                
-                supermarktmanager.ProductHistory currentGeschiedenis = allGeschiedenis[0];
-                for (supermarktmanager.ProductHistory history : allGeschiedenis) {
+                ProductHistory currentGeschiedenis = null;
+                for (ProductHistory history : historyService.getAllHistoryAssociatedWithProduct(product)) {
                     if (history.getDateEind() == null) {
                         currentGeschiedenis = history;
                     }
                 }
+                if(currentGeschiedenis == null){
+                    System.out.println("CurrentGeschiedenis is null");
+                }
                 currentGeschiedenis.setAantal(currentGeschiedenis.getAantal() + aantal);
                 productDao.update(product);
-                historyDao.update(currentGeschiedenis);
-                
+                historyService.updateProductHistory(currentGeschiedenis);
+                hibSession.flush();
+            } catch (RuntimeException e) {
+                System.out.println("Exception e has occured: " + e);
+                hibSession.getTransaction().rollback();
+            } finally {
+                hibSession.close();
             }
-            hibSession.flush();
-        } catch (RuntimeException e) {
-            System.out.println("Exception e has occured: " + e);
-            hibSession.getTransaction().rollback();
-        } finally {
-            hibSession.close();
         }
     }
 }

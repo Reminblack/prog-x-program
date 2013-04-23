@@ -92,6 +92,18 @@ public class ProductHistoryService {
     }
     
     public List<ProductHistory> getAllHistoryAssociatedWithProduct(Product associatedProduct){
-        return hibSession.createQuery("from History WHERE product='"+associatedProduct+"'").list();
+        List<ProductHistory> foundHistories = null;
+        try{
+            hibSession = StaticContainer.getSession();
+            hibSession.beginTransaction();
+            productHistoryDao.retrieveHistoryAssociatedWithAProduct(associatedProduct);
+            hibSession.flush();
+        } catch(RuntimeException e){
+           System.out.println("Exception e has occured: "+e);
+           hibSession.getTransaction().rollback();
+        } finally{
+            hibSession.close();
+        }
+        return foundHistories;
     }
 }

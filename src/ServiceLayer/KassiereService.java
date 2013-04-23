@@ -5,7 +5,7 @@
 package ServiceLayer;
 
 import DAOClasses.Dao;
-import DAOClasses.KassiereDao;
+import DAOClasses.PersoonDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
@@ -16,18 +16,18 @@ import supermarktmanager.Kassiere;
  * @author Bart
  */
 public class KassiereService {
-    private KassiereDao kassiereDao;
+    private PersoonDao PersoonDao;
     private Session hibSession;
     
-    public void setKassiereDAO(Dao kassiereDao){
-        this.kassiereDao = (KassiereDao)kassiereDao;
+    public void setKassiereDAO(Dao PersoonDao){
+        this.PersoonDao = (PersoonDao)PersoonDao;
     }
     
     public void addNewKassiere(Kassiere newKassiere){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            kassiereDao.create(newKassiere);
+            PersoonDao.create(newKassiere);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -41,7 +41,7 @@ public class KassiereService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            kassiereDao.update(updatedKassiere);
+            PersoonDao.update(updatedKassiere);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -57,7 +57,7 @@ public class KassiereService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundKassiere = kassiereDao.retrieve(kassiere_id);
+            foundKassiere = (Kassiere)PersoonDao.retrieve(kassiere_id);
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
@@ -73,7 +73,7 @@ public class KassiereService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundKassieres = new ArrayList(kassiereDao.retrieveAll());
+            foundKassieres = new ArrayList(PersoonDao.retrieveAll());
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
@@ -87,7 +87,7 @@ public class KassiereService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            kassiereDao.remove(kassiere);
+            PersoonDao.remove(kassiere);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);

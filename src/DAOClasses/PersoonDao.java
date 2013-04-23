@@ -11,28 +11,33 @@ import supermarktmanager.*;
  *
  * @author Bart
  */
-public abstract class PersoonDao{
+public class PersoonDao implements Dao<Persoon>{
     
-    public PersoonDao(){
+     public PersoonDao(){
     }
     
-    protected void createNewPersoon(Persoon newEmployee){
-        newHibernateUtil.getSessionFactory().getCurrentSession().save(newEmployee);
+    @Override
+    public void create(Persoon newPersoon){
+        newHibernateUtil.getSessionFactory().getCurrentSession().save(newPersoon);
     }
     
-    protected void updatePersoon(Persoon updatedEmployee){
-        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedEmployee);
+    @Override
+    public void update(Persoon updatedPersoon){
+        newHibernateUtil.getSessionFactory().getCurrentSession().update(updatedPersoon);
     }
     
-    protected Object getPersoon(Long employee_id){
-        return newHibernateUtil.getSessionFactory().getCurrentSession().get(Persoon.class, employee_id);
+    @Override
+    public Persoon retrieve(Long persoon_id){
+        return (Persoon)newHibernateUtil.getSessionFactory().getCurrentSession().get(Container.class, persoon_id);
     }
     
-    protected List getAllPersonen(String employeeType){
-        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from "+employeeType).list();
+    @Override
+    public List<Persoon> retrieveAll(){
+        return newHibernateUtil.getSessionFactory().getCurrentSession().createQuery("from Persoon").list();
     }
     
-    protected void deletePersoon(Persoon deletedPersoon){
-        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletedPersoon);
+    @Override
+    public void remove(Persoon deletePersoon){
+        newHibernateUtil.getSessionFactory().getCurrentSession().delete(deletePersoon);
     }
 }

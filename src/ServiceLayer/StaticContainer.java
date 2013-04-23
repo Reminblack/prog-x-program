@@ -20,9 +20,9 @@ public class StaticContainer {
    
    protected StaticContainer(){
        hibernateSession = newHibernateUtil.getSessionFactory().getCurrentSession();
-       
+       Dao persoonDao = new PersoonDao();
        VakkenVullerService vvs = new VakkenVullerService();
-       vvs.setVakkenVullerDao(new VakkenVullerDao());
+       vvs.setVakkenVullerDao(persoonDao);
        services.put("VakkenVullerService", vvs);
        
        LocatieService ls = new LocatieService();
@@ -30,15 +30,15 @@ public class StaticContainer {
        services.put("LocatieService", ls);
        
        BakkerService bs = new BakkerService();
-       bs.setBakkerDAO(new BakkerDao());
+       bs.setBakkerDAO(persoonDao);
        services.put("BakkerService", bs);
        
        KassiereService ks = new KassiereService();
-       ks.setKassiereDAO(new KassiereDao());
+       ks.setKassiereDAO(persoonDao);
        services.put("KassiereService", ks);
        
        SlagerService ss = new SlagerService();
-       ss.setSlagerDAO(new SlagerDao());
+       ss.setSlagerDAO(persoonDao);
        services.put("SlagerService", ss);
        
    }

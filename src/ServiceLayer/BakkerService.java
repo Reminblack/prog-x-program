@@ -4,8 +4,8 @@
  */
 package ServiceLayer;
 
-import DAOClasses.BakkerDao;
 import DAOClasses.Dao;
+import DAOClasses.PersoonDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
@@ -16,18 +16,18 @@ import supermarktmanager.Bakker;
  * @author Bart
  */
 public class BakkerService {
-    private BakkerDao bakkerDao;
+    private PersoonDao PersoonDao;
     private Session hibSession;
     
-    public void setBakkerDAO(Dao bakkerDao){
-        this.bakkerDao = (BakkerDao)bakkerDao;
+    public void setBakkerDAO(Dao PersoonDao){
+        this.PersoonDao = (PersoonDao)PersoonDao;
     }
     
     public void addNewBakker(Bakker newBakker){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            bakkerDao.create(newBakker);
+            PersoonDao.create(newBakker);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -41,7 +41,7 @@ public class BakkerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            bakkerDao.update(updatedBakker);
+            PersoonDao.update(updatedBakker);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -57,7 +57,7 @@ public class BakkerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundBakker = bakkerDao.retrieve(bakker_id);
+            foundBakker = (Bakker)PersoonDao.retrieve(bakker_id);
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
@@ -73,7 +73,7 @@ public class BakkerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-        foundBakkers = new ArrayList(bakkerDao.retrieveAll());
+        foundBakkers = new ArrayList(PersoonDao.retrieveAll());
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
@@ -87,7 +87,7 @@ public class BakkerService {
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            bakkerDao.remove(bakker);
+            PersoonDao.remove(bakker);
             hibSession.flush();
         } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);

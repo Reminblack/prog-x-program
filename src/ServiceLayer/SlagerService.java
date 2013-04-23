@@ -5,7 +5,7 @@
 package ServiceLayer;
 
 import DAOClasses.Dao;
-import DAOClasses.SlagerDao;
+import DAOClasses.PersoonDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
@@ -16,18 +16,18 @@ import supermarktmanager.Slager;
  * @author Bart
  */
 public class SlagerService {
-    private SlagerDao slagerDao;
+    private PersoonDao PersoonDao;
     private Session hibSession;
     
-    public void setSlagerDAO(Dao slagerDao){
-        this.slagerDao = (SlagerDao)slagerDao;
+    public void setSlagerDAO(Dao PersoonDao){
+        this.PersoonDao = (PersoonDao)PersoonDao;
     }
     
     public void addNewSlager(Slager newSlager){
         hibSession = StaticContainer.getSession();
        try{
             hibSession.beginTransaction();
-            slagerDao.create(newSlager);
+            PersoonDao.create(newSlager);
             hibSession.flush();
        } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -41,7 +41,7 @@ public class SlagerService {
        hibSession = StaticContainer.getSession();
        try{
             hibSession.beginTransaction();
-            slagerDao.update(updatedSlager);
+            PersoonDao.update(updatedSlager);
             hibSession.flush();
        } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
@@ -57,7 +57,7 @@ public class SlagerService {
        hibSession = StaticContainer.getSession();
        try{
             hibSession.beginTransaction();
-            foundSlager = slagerDao.retrieve(slager_id);
+            foundSlager = (Slager)PersoonDao.retrieve(slager_id);
        } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
@@ -73,7 +73,7 @@ public class SlagerService {
         hibSession = StaticContainer.getSession();
         try{
              hibSession.beginTransaction();
-             foundSlagers = new ArrayList(slagerDao.retrieveAll());
+             foundSlagers = new ArrayList(PersoonDao.retrieveAll());
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);
             hibSession.getTransaction().rollback();
@@ -87,7 +87,7 @@ public class SlagerService {
         hibSession = StaticContainer.getSession();
         try{
              hibSession.beginTransaction();
-             slagerDao.remove(slager);
+             PersoonDao.remove(slager);
              hibSession.flush();
         } catch(RuntimeException e){
             System.out.println("Exception e has occured: "+e);
