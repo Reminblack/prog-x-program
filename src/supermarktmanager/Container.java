@@ -1,6 +1,7 @@
 package supermarktmanager;
 
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +17,10 @@ public class Container {
     private Long id;
     @ManyToOne
     private Locatie locatie;
-    private String type;    
+    @Column(nullable = false)
+    private String type;
+    
+    private String restriction;
 
     public Long getId() {
         return id;
@@ -51,4 +55,22 @@ public class Container {
     {
         products.remove(p);
     }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public String getRestriction() {
+        return restriction;
+    }
+
+    public void setRestriction(String restriction) {
+        this.restriction = restriction;
+    }
+    
+    
 }
