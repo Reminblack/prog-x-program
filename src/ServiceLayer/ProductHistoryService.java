@@ -4,13 +4,13 @@
  */
 package ServiceLayer;
 
-import DAOClasses.Dao;
-import DAOClasses.ProductHistoryDao;
+import DaoLayer.Dao;
+import DaoLayer.ProductHistoryDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import supermarktmanager.Product;
-import supermarktmanager.ProductHistory;
+import Entity.Product;
+import Entity.ProductHistory;
 
 /**
  *
@@ -38,6 +38,7 @@ public class ProductHistoryService {
             productHistoryDao.update(updatedProductHistory);
             hibSession.flush();
         } catch(RuntimeException e){
+            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
@@ -53,6 +54,7 @@ public class ProductHistoryService {
             hibSession.beginTransaction();
             foundProductHistory = productHistoryDao.retrieve(productHistory_id);
         } catch(RuntimeException e){
+            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
@@ -69,6 +71,7 @@ public class ProductHistoryService {
             hibSession.beginTransaction();
             foundProductHistories = new ArrayList(productHistoryDao.retrieveAll());
         } catch(RuntimeException e){
+            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
@@ -84,6 +87,7 @@ public class ProductHistoryService {
             productHistoryDao.remove(productHistory);
             hibSession.flush();
         } catch(RuntimeException e){
+            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
@@ -99,6 +103,7 @@ public class ProductHistoryService {
             productHistoryDao.retrieveHistoryAssociatedWithAProduct(associatedProduct);
             hibSession.flush();
         } catch(RuntimeException e){
+            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{

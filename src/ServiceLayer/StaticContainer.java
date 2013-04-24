@@ -4,10 +4,14 @@
  */
 package ServiceLayer;
 
-import DAOClasses.*;
+import DaoLayer.PersoonDao;
+import DaoLayer.ContainerDao;
+import DaoLayer.LocatieDao;
+import DaoLayer.Dao;
+import DaoLayer.ProductHistoryDao;
+import DaoLayer.ProductDao;
 import java.util.HashMap;
 import org.hibernate.Session;
-import supermarktmanager.newHibernateUtil;
 /**
  *
  * @author Bart
@@ -22,24 +26,37 @@ public class StaticContainer {
        hibernateSession = newHibernateUtil.getSessionFactory().getCurrentSession();
        Dao persoonDao = new PersoonDao();
        VakkenVullerService vvs = new VakkenVullerService();
-       vvs.setVakkenVullerDao(persoonDao);
+       SlagerService ss = new SlagerService();
+       BakkerService bs = new BakkerService();
+       KassiereService ks = new KassiereService();
+       
+       vvs.setDao(persoonDao);
+       ss.setDao(persoonDao);
+       bs.setDao(persoonDao);
+       ks.setDao(persoonDao);
+       
        services.put("VakkenVullerService", vvs);
+       services.put("SlagerService", ss);
+       services.put("BakkerService", bs);
+       services.put("KassiereService", ks);
        
        LocatieService ls = new LocatieService();
        ls.setLocatieDao(new LocatieDao());
        services.put("LocatieService", ls);
        
-       BakkerService bs = new BakkerService();
-       bs.setBakkerDAO(persoonDao);
-       services.put("BakkerService", bs);
+       ContainerService cs = new ContainerService();
+       cs.setContainerDAO(new ContainerDao());
+       services.put("ContainerService", cs);
        
-       KassiereService ks = new KassiereService();
-       ks.setKassiereDAO(persoonDao);
-       services.put("KassiereService", ks);
+       ProductHistoryService phs = new ProductHistoryService();
+       phs.setProductHistoryDAO(new ProductHistoryDao());
+       services.put("ProductHistoryService", phs);
        
-       SlagerService ss = new SlagerService();
-       ss.setSlagerDAO(persoonDao);
-       services.put("SlagerService", ss);
+       ProductService ps = new ProductService();
+       ps.setProductDao(new ProductDao());
+       ps.setProductServices(phs, cs);
+       services.put("ProductService", ps);
+       
        
    }
    

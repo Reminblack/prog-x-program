@@ -2,10 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAOClasses;
+package DaoLayer;
 
+import ServiceLayer.newHibernateUtil;
+import Entity.Persoon;
 import java.util.List;
-import supermarktmanager.*;
 
 /**
  *
@@ -28,7 +29,7 @@ public class PersoonDao implements Dao<Persoon>{
     
     @Override
     public Persoon retrieve(Long persoon_id){
-        return (Persoon)newHibernateUtil.getSessionFactory().getCurrentSession().get(Container.class, persoon_id);
+        return (Persoon)newHibernateUtil.getSessionFactory().getCurrentSession().get(Persoon.class, persoon_id);
     }
     
     @Override

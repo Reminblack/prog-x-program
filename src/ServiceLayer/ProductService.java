@@ -4,20 +4,19 @@
  */
 package ServiceLayer;
 
-import DAOClasses.ProductDao;
+import DaoLayer.ProductDao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
-import supermarktmanager.Container;
-import supermarktmanager.Product;
-import supermarktmanager.ProductHistory;
+import Entity.Product;
+import Entity.ProductHistory;
 
 /**
  *
  * @author Remco
  */
-public class ProductServices {
+public class ProductService {
     
     private Session hibSession;
     private ProductDao productDao;
@@ -38,29 +37,47 @@ public class ProductServices {
         try {
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            
             productDao.create(p);
             historyService.addNewProductHistory(p);
-            
-            hibSession.flush();
+            hibSession.getTransaction().commit();
         } catch (RuntimeException e) {
             System.out.println("Exception e has occured: " + e);
+            e.getStackTrace();
             hibSession.getTransaction().rollback();
-        } finally {
-            hibSession.close();
         }
     }
     
     public void updateProduct(Product updatedProduct){
-        try{
+        try {
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
+            Product oldProduct = productDao.retrieve(updatedProduct.getId());
+            if (oldProduct.getPrijs() != updatedProduct.getPrijs()) {
+                ProductHistory currentGeschiedenis = null;
+                for (ProductHistory history : historyService.getAllHistoryAssociatedWithProduct(updatedProduct)) {
+                    if (history.getDateEind() == null) {
+                        currentGeschiedenis = history;
+                    }
+                }
+                if(currentGeschiedenis == null){
+                    System.out.println("CurrentGeschiedenis is null");
+                }
+                currentGeschiedenis.setDateEind(new Date());
+                historyService.addNewProductHistory(updatedProduct);
+            }
+            if (updatedProduct.getContainer() != oldProduct.getContainer()) {
+                oldProduct.getContainer().removeProduct(updatedProduct);
+                updatedProduct.getContainer().addProduct(updatedProduct);
+                containerService.updateContainer(oldProduct.getContainer());
+                containerService.updateContainer(updatedProduct.getContainer());
+            }
             productDao.update(updatedProduct);
             hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-        } finally{
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            System.out.println("Exception e has occured: " + e);
+            hibSession.getTransaction().rollback();
+        } finally {
             hibSession.close();
         }
     }
@@ -73,6 +90,7 @@ public class ProductServices {
             hibSession.beginTransaction();
             foundProduct = productDao.retrieve(product_id);
         } catch(RuntimeException e){
+            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
@@ -89,6 +107,7 @@ public class ProductServices {
             hibSession.beginTransaction();
             foundProducts = new ArrayList(productDao.retrieveAll());
         } catch(RuntimeException e){
+            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
         } finally{
@@ -109,43 +128,7 @@ public class ProductServices {
             productDao.remove(p);            
             hibSession.flush();
         } catch (RuntimeException e) {
-            System.out.println("Exception e has occured: " + e);
-            hibSession.getTransaction().rollback();
-        } finally {
-            hibSession.close();
-        }
-    }
-    
-    
-    
-    public void saveChanges(Product product, Container c) {
-        try {
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            Product oldProduct = productDao.retrieve(product.getId());
-            if (oldProduct.getPrijs() != product.getPrijs()) {
-                ProductHistory currentGeschiedenis = null;
-                for (ProductHistory history : historyService.getAllHistoryAssociatedWithProduct(product)) {
-                    if (history.getDateEind() == null) {
-                        currentGeschiedenis = history;
-                    }
-                }
-                if(currentGeschiedenis == null){
-                    System.out.println("CurrentGeschiedenis is null");
-                }
-                currentGeschiedenis.setDateEind(new Date());
-                
-                historyService.addNewProductHistory(product);
-            }
-            if (product.getRek() != oldProduct.getRek()) {
-                //oldProduct.getRek().removeProduct(product);
-                //product.getRek().addProduct(product);
-                //containerDao.update(oldProduct.getRek());
-                //containerDao.update(product.getRek());
-            }
-            productDao.update(product);
-            hibSession.flush();
-        } catch (RuntimeException e) {
+            e.getStackTrace();
             System.out.println("Exception e has occured: " + e);
             hibSession.getTransaction().rollback();
         } finally {
@@ -173,6 +156,7 @@ public class ProductServices {
                 historyService.updateProductHistory(currentGeschiedenis);
                 hibSession.flush();
             } catch (RuntimeException e) {
+                e.getStackTrace();
                 System.out.println("Exception e has occured: " + e);
                 hibSession.getTransaction().rollback();
             } finally {

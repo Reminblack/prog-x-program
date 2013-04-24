@@ -4,96 +4,55 @@
  */
 package ServiceLayer;
 
-import DAOClasses.Dao;
-import DAOClasses.PersoonDao;
+import DaoLayer.Dao;
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Session;
-import supermarktmanager.Kassiere;
+import Entity.Kassiere;
+import Entity.Persoon;
 
 /**
  *
  * @author Bart
  */
-public class KassiereService {
-    private PersoonDao PersoonDao;
-    private Session hibSession;
-    
-    public void setKassiereDAO(Dao PersoonDao){
-        this.PersoonDao = (PersoonDao)PersoonDao;
+public class KassiereService extends PersoonService{
+    private boolean isSet = false;
+    public void setService(Dao PersoonDao){
+        if(!isSet){
+            super.setDao(PersoonDao);
+            isSet = true;
+        }
     }
     
     public void addNewKassiere(Kassiere newKassiere){
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            PersoonDao.create(newKassiere);
-            hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        super.addPersoon(newKassiere);
     }
     
     public void updateKassiere(Kassiere updatedKassiere){
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            PersoonDao.update(updatedKassiere);
-            hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+        super.updatePersoon(updatedKassiere);
     }
     
     public Kassiere getKassiereById(Long kassiere_id)
     {
-        Kassiere foundKassiere = null;
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            foundKassiere = (Kassiere)PersoonDao.retrieve(kassiere_id);
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
+        Persoon foundEmployee = super.getPersoonById(kassiere_id);
+        if(foundEmployee instanceof Kassiere){
+            return (Kassiere)foundEmployee;
+        } else {
+            System.out.println("This is not a Kassiere.");
         }
-        return foundKassiere;
+        return null;
     }
     
-    public List<Kassiere> getAllKassieres()
-    {
-        List<Kassiere> foundKassieres = null;
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            foundKassieres = new ArrayList(PersoonDao.retrieveAll());
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
+    public List<Kassiere> getAllKassieres(){
+        List<Kassiere> foundKassieres = new ArrayList();
+        for(Persoon currentEmployee : super.getAllPersoons()){
+            if(currentEmployee instanceof Kassiere){
+                foundKassieres.add((Kassiere)currentEmployee);
+            }
         }
         return foundKassieres;
     }
     
     public void deleteAKassiere(Kassiere kassiere){
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            PersoonDao.remove(kassiere);
-            hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+        super.deleteAPersoon(kassiere);
     }
 }

@@ -1,12 +1,18 @@
-package supermarktmanager;
+package Entity;
 
+import ServiceLayer.StaticContainer;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Container {
+    @OneToMany(mappedBy = "rek")
+    private List<Product> products = new ArrayList();
     @Id
     @GeneratedValue
     private Long id;
@@ -36,5 +42,19 @@ public class Container {
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public void addProduct(Product p)
+    {
+        StaticContainer.getSession().beginTransaction();
+        products.add(p);
+        StaticContainer.getSession().getTransaction().commit();
+    }
+    
+    public void removeProduct(Product p)
+    {
+        StaticContainer.getSession().beginTransaction();
+        products.remove(p);
+        StaticContainer.getSession().getTransaction().commit();
     }
 }

@@ -1,4 +1,4 @@
-package supermarktmanager;
+package Entity;
 
 public class Locatietoewijzing {
     int locatie;

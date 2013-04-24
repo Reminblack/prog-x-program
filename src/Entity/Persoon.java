@@ -1,4 +1,4 @@
-package supermarktmanager;
+package Entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,15 @@ public abstract class Persoon {
     private String Name;
     
     @ManyToMany
-    public List<Locatie> werkplekken = new ArrayList();
+    protected List<Locatie> werkplekken = new ArrayList();
+
+    public List<Locatie> getWerkplekken() {
+        return werkplekken;
+    }
+
+    public void setWerkplekken(List<Locatie> werkplekken) {
+        this.werkplekken = werkplekken;
+    }
 
     public Long getId() {
         return id;

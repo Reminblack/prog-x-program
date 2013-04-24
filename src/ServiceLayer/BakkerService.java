@@ -4,96 +4,55 @@
  */
 package ServiceLayer;
 
-import DAOClasses.Dao;
-import DAOClasses.PersoonDao;
+import DaoLayer.Dao;
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Session;
-import supermarktmanager.Bakker;
+import Entity.Bakker;
+import Entity.Persoon;
 
 /**
  *
  * @author Bart
  */
-public class BakkerService {
-    private PersoonDao PersoonDao;
-    private Session hibSession;
-    
-    public void setBakkerDAO(Dao PersoonDao){
-        this.PersoonDao = (PersoonDao)PersoonDao;
+public class BakkerService extends PersoonService{
+    private boolean isSet = false;
+    public void setService(Dao PersoonDao){
+        if(!isSet){
+            super.setDao(PersoonDao);
+            isSet = true;
+        }
     }
     
     public void addNewBakker(Bakker newBakker){
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            PersoonDao.create(newBakker);
-            hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        super.addPersoon(newBakker);
     }
     
     public void updateBakker(Bakker updatedBakker){
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            PersoonDao.update(updatedBakker);
-            hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        super.updatePersoon(updatedBakker);
     }
     
     public Bakker getBakkerById(Long bakker_id)
     {
-        Bakker foundBakker = null;
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            foundBakker = (Bakker)PersoonDao.retrieve(bakker_id);
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
-        return foundBakker;
+        Persoon foundEmployee = super.getPersoonById(bakker_id);
+        if(foundEmployee instanceof Bakker){
+            return (Bakker)foundEmployee;
+        } else {
+            System.out.println("This is not a Bakker.");
+        }
+        return null;
     }
     
-    public List<Bakker> getAllBakkers()
-    {
-        List<Bakker> foundBakkers = null;
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-        foundBakkers = new ArrayList(PersoonDao.retrieveAll());
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+    public List<Bakker> getAllBakkers(){
+        List<Bakker> foundBakkers = new ArrayList();
+        for(Persoon currentEmployee : super.getAllPersoons()){
+            if(currentEmployee instanceof Bakker){
+                foundBakkers.add((Bakker)currentEmployee);
+            }
+        }
         return foundBakkers;
     }
     
     public void deleteABakker(Bakker bakker){
-        try{
-            hibSession = StaticContainer.getSession();
-            hibSession.beginTransaction();
-            PersoonDao.remove(bakker);
-            hibSession.flush();
-        } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        super.deleteAPersoon(bakker);
     }
 }

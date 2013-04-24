@@ -23,13 +23,17 @@
         <property name="hbm2ddl.auto">update</property>
         <!-- Disable auto commit -->
         <property name="hibernate.connection.autocommit">false</property> 
-        <property name="hibernate.transaction.auto_close_session">false</property>
         
         
-        <mapping class="supermarktmanager.Product" />
-        <mapping class="supermarktmanager.Container" />
-        <mapping class="supermarktmanager.VakkenVuller" />
-        <mapping class="supermarktmanager.Locatie" />
-        <mapping class="supermarktmanager.ProductHistory" />
+        <mapping class="Entity.Bakker" />
+        <mapping class="Entity.Kassiere" />
+        <mapping class="Entity.Slager" />
+        <mapping class="Entity.VakkenVuller" />
+        
+        <mapping class="Entity.Container" />
+        <mapping class="Entity.Locatie" />
+        
+        <mapping class="Entity.Product" />
+        <mapping class="Entity.ProductHistory" />
     </session-factory>
 </hibernate-configuration>

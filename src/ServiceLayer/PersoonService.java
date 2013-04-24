@@ -5,102 +5,98 @@
 package ServiceLayer;
 
 import DaoLayer.Dao;
-import DaoLayer.LocatieDao;
+import DaoLayer.PersoonDao;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
-import Entity.Container;
-import Entity.Locatie;
+import Entity.Persoon;
+
 /**
  *
  * @author Bart
  */
-public class LocatieService {
-    
-    private LocatieDao locatieDao;
+public class PersoonService {
+    private PersoonDao persoonDao;
     private Session hibSession;
     
-    public void setLocatieDao(Dao locatieDao){
-        this.locatieDao = (LocatieDao)locatieDao;
+    protected void setDao(Dao persoonDao){
+        this.persoonDao = (PersoonDao)persoonDao;
     }
     
-    public void addNewLocatie(Locatie newLocatie){
+    protected void addPersoon(Persoon newPersoon){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            locatieDao.create(newLocatie);
+            persoonDao.create(newPersoon);
             hibSession.flush();
         } catch(RuntimeException e){
             e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+       } finally{
+           hibSession.close();
+       }
     }
     
-    public void updateLocatie(Locatie updatedLocatie){
+    protected void updatePersoon(Persoon updatedPersoon){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            locatieDao.update(updatedLocatie);
+            persoonDao.update(updatedPersoon);
             hibSession.flush();
         } catch(RuntimeException e){
             e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+       } finally{
+           hibSession.close();
+       }
     }
     
-    public Locatie getLocatieById(Long locatie_id)
+    protected Persoon getPersoonById(Long persoon_id)
     {
-        Locatie foundLocatie = null;
+        Persoon foundPersoon = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundLocatie = locatieDao.retrieve(locatie_id);
+            foundPersoon = (Persoon)persoonDao.retrieve(persoon_id);
         } catch(RuntimeException e){
             e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
-        return foundLocatie;
+       } finally{
+           hibSession.close();
+       }
+        return foundPersoon;
     }
     
-    public List<Locatie> getAllLocaties()
+    protected List<Persoon> getAllPersoons()
     {
-        List<Locatie> foundLocations = null;
+        List<Persoon> foundPersoons = null;
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            foundLocations = new ArrayList(locatieDao.retrieveAll());
-            hibSession.flush();
-        } catch(RuntimeException e){
-            e.getStackTrace();
+            foundPersoons = new ArrayList(persoonDao.retrieveAll());
+            hibSession.close();
+       } catch(RuntimeException e){
            System.out.println("Exception e has occured: "+e);
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
-        return foundLocations;
+       }
+        return foundPersoons;
     }
     
-    public void deleteALocatie(Locatie locatie){
+    protected void deleteAPersoon(Persoon persoon){
         try{
             hibSession = StaticContainer.getSession();
             hibSession.beginTransaction();
-            locatieDao.remove(locatie);
+            persoonDao.remove(persoon);
             hibSession.flush();
         } catch(RuntimeException e){
-            e.getStackTrace();
            System.out.println("Exception e has occured: "+e);
+           e.getStackTrace();
            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+       } finally{
+           hibSession.close();
+       }
     }
 }

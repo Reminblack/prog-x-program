@@ -1,8 +1,9 @@
-package supermarktmanager;
+package Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Product {
@@ -13,7 +14,8 @@ public class Product {
     private String merk;
     private float prijs;
     private int aantal;
-    private Long rek;
+    @ManyToOne
+    private Container rek;
 
     public Long getId() {
         return id;
@@ -55,11 +57,11 @@ public class Product {
         this.aantal = aantal;
     }
 
-    public Long getRek() {
+    public Container getContainer() {
         return rek;
     }
 
-    public void setRek(Long rek) {
+    public void setContainer(Container rek) {
         this.rek = rek;
     }
 }

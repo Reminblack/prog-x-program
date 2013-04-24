@@ -4,96 +4,55 @@
  */
 package ServiceLayer;
 
-import DAOClasses.Dao;
-import DAOClasses.PersoonDao;
+import DaoLayer.Dao;
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Session;
-import supermarktmanager.Slager;
+import Entity.Persoon;
+import Entity.Slager;
 
 /**
  *
  * @author Bart
  */
-public class SlagerService {
-    private PersoonDao PersoonDao;
-    private Session hibSession;
-    
-    public void setSlagerDAO(Dao PersoonDao){
-        this.PersoonDao = (PersoonDao)PersoonDao;
+public class SlagerService extends PersoonService{
+    private boolean isSet = false;
+    public void setService(Dao PersoonDao){
+        if(!isSet){
+            super.setDao(PersoonDao);
+            isSet = true;
+        }
     }
     
     public void addNewSlager(Slager newSlager){
-        hibSession = StaticContainer.getSession();
-       try{
-            hibSession.beginTransaction();
-            PersoonDao.create(newSlager);
-            hibSession.flush();
-       } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        super.addPersoon(newSlager);
     }
     
     public void updateSlager(Slager updatedSlager){
-       hibSession = StaticContainer.getSession();
-       try{
-            hibSession.beginTransaction();
-            PersoonDao.update(updatedSlager);
-            hibSession.flush();
-       } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
+        super.updatePersoon(updatedSlager);
     }
     
     public Slager getSlagerById(Long slager_id)
     {
-       Slager foundSlager = null;
-       hibSession = StaticContainer.getSession();
-       try{
-            hibSession.beginTransaction();
-            foundSlager = (Slager)PersoonDao.retrieve(slager_id);
-       } catch(RuntimeException e){
-           System.out.println("Exception e has occured: "+e);
-           hibSession.getTransaction().rollback();
-       } finally{
-           hibSession.close();
-       }
-       return foundSlager;
+        Persoon foundEmployee = super.getPersoonById(slager_id);
+        if(foundEmployee instanceof Slager){
+            return (Slager)foundEmployee;
+        } else {
+            System.out.println("This is not a Slager.");
+        }
+        return null;
     }
     
-    public List<Slager> getAllSlagers()
-    {
-        List<Slager> foundSlagers = null;
-        hibSession = StaticContainer.getSession();
-        try{
-             hibSession.beginTransaction();
-             foundSlagers = new ArrayList(PersoonDao.retrieveAll());
-        } catch(RuntimeException e){
-            System.out.println("Exception e has occured: "+e);
-            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
+    public List<Slager> getAllSlagers(){
+        List<Slager> foundSlagers = new ArrayList();
+        for(Persoon currentEmployee : super.getAllPersoons()){
+            if(currentEmployee instanceof Slager){
+                foundSlagers.add((Slager)currentEmployee);
+            }
         }
         return foundSlagers;
     }
     
     public void deleteASlager(Slager slager){
-        hibSession = StaticContainer.getSession();
-        try{
-             hibSession.beginTransaction();
-             PersoonDao.remove(slager);
-             hibSession.flush();
-        } catch(RuntimeException e){
-            System.out.println("Exception e has occured: "+e);
-            hibSession.getTransaction().rollback();
-        } finally{
-            hibSession.close();
-        }
+        super.deleteAPersoon(slager);
     }
 }
